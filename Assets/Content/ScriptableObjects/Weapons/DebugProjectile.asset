@@ -20,6 +20,5 @@ MonoBehaviour:
   ProjectileSpeed: 45
   FiredProjectiles: 7
   ProjectileLifetime: 1.3
-  Spread: {x: 15, y: 10}
-  Capacity: 15
-  ReloadDuration: 0
+  Spread: {x: 10, y: 8}
+  ApplySpreadToFirstProjectile: 0
