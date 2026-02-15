@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using NUnit.Framework.Constraints;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -66,6 +67,7 @@ public class WeaponsHolder : MonoBehaviour
     {
     }
 
+    #region Private API
     private void TryAttack(BaseWeapon weapon)
     {
         switch (weapon)
@@ -111,6 +113,7 @@ public class WeaponsHolder : MonoBehaviour
         for (var i = 0; i < weapon.FiredProjectiles; i++)
         {
             var resuldDir = direction;
+            var resultPos = camTransform.position;
 
             if (i > 0)
             {
@@ -120,14 +123,16 @@ public class WeaponsHolder : MonoBehaviour
                 rotation.eulerAngles = new(x, y, rotation.eulerAngles.z);
 
                 resuldDir = rotation * direction;
+                resultPos += camTransform.right * x / 100 + camTransform.up * y / 100;
             }
 
             var instance = Instantiate(weapon.Projectile);
             SceneManager.MoveGameObjectToScene(instance, SceneManager.GetActiveScene());
-            instance.transform.position = camTransform.position + camTransform.forward * 0.75f;
+            instance.transform.position = resultPos + camTransform.forward * 0.75f - Vector3.up * 0.12f;
 
             var proj = instance.GetOrAddComponent<Projectile>();
             proj.Launch(_collider, resuldDir.normalized * weapon.ProjectileSpeed);
+            Destroy(instance, weapon.ProjectileLifetime);
         }
 
     }
@@ -140,6 +145,11 @@ public class WeaponsHolder : MonoBehaviour
         weapon = _firstWeapon ? _weapon1 : _weapon2;
         return weapon != null;
     }
+    #endregion
+
+    #region Visualization
+
+    #endregion
 
     public void OnAttack(InputAction.CallbackContext context)
     {
@@ -165,5 +175,21 @@ public class WeaponsHolder : MonoBehaviour
         _queuedAttacks.Add(Time.time + weapon.DelayBeforeAttack);
         _attackTimer = weapon.AttackRate;
         _isAttacking = weapon.Automatic;
+    }
+
+    public void OnWeaponSwitch(InputAction.CallbackContext context)
+    {
+        if (!isActiveAndEnabled)
+            return;
+
+        if (!context.performed)
+            return;
+
+        _firstWeapon = !_firstWeapon;
+
+        _isAttacking = false;
+        _queuedAttacks.Clear();
+
+        TryGetCurrentWeapon(out _);
     }
 }

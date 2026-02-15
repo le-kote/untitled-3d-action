@@ -6,6 +6,7 @@ public sealed class ProjectileWeapon : BaseWeapon
     public GameObject Projectile;
     public float ProjectileSpeed;
     public int FiredProjectiles;
+    public float ProjectileLifetime;
     public Vector2 Spread;
 
     public int Capacity = 15;
