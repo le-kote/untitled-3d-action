@@ -2,6 +2,9 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// This component handles the most common movement, such as walking, running, crouching and jumping
+/// </summary>
 [RequireComponent(typeof(CharacterController))]
 public class GenericMovement : MonoBehaviour
 {
@@ -16,13 +19,13 @@ public class GenericMovement : MonoBehaviour
     [SerializeField]
     private float _crouchSpeed = 4;
 
-    [SerializeField] 
+    [SerializeField]
     private float _jumpHeight = 2;
 
-    [SerializeField] 
+    [SerializeField]
     private float _gravity = -9.8f;
 
-    [SerializeField] 
+    [SerializeField]
     public bool UseGravity = true;
 
     [SerializeField]
@@ -61,19 +64,19 @@ public class GenericMovement : MonoBehaviour
 
     [Header("Camera")]
 
-    [SerializeField] 
+    [SerializeField]
     private float _cameraSpeed = 5;
 
-    [SerializeField] 
+    [SerializeField]
     private float _cameraYLimits = 85f;
 
-    [SerializeField] 
+    [SerializeField]
     private float _walkFov = 60;
 
-    [SerializeField] 
+    [SerializeField]
     private float _sprintFov = 70;
 
-    [SerializeField] 
+    [SerializeField]
     private Camera _camera;
 
     public GameObject CameraHolder;
@@ -86,9 +89,21 @@ public class GenericMovement : MonoBehaviour
     private bool _jumping = false;
     private Vector3 _groundNormal = Vector3.up;
 
+    /// <summary>
+    /// Should player moving or not
+    /// </summary>
     public bool MovementEnabled = true;
+
+    /// <summary>
+    /// Current input
+    /// </summary>
     public Vector2 Input { get; private set; } = Vector2.zero;
-    public Vector3 Velocity { get; private set; } = Vector3.zero; 
+
+    /// <summary>
+    /// Current velocity relative to world
+    /// </summary>
+    public Vector3 Velocity { get; private set; } = Vector3.zero;
+
     public MoveState CurrentMoveState { get; private set; } = MoveState.Walking;
     public bool IsGrounded { get; private set; } = false;
 
@@ -109,7 +124,7 @@ public class GenericMovement : MonoBehaviour
 
         if (!MovementEnabled)
             return;
-            
+
         UpdateMovement();
         UpdateHeight();
     }
@@ -127,7 +142,7 @@ public class GenericMovement : MonoBehaviour
 
             _verticalRotation += -_cameraMove.y * Time.deltaTime * _cameraSpeed;
             _verticalRotation = Mathf.Clamp(_verticalRotation, -_cameraYLimits, _cameraYLimits);
-            
+
             _cameraRot = Quaternion.Euler(_verticalRotation, 0, 0);
             CameraHolder.transform.localRotation = _cameraRot;
         }
@@ -367,7 +382,7 @@ public class GenericMovement : MonoBehaviour
             _jumping = true;
         }
     }
-    
+
     public void OnCameraMove(InputAction.CallbackContext context)
     {
         _cameraMove = context.ReadValue<Vector2>();

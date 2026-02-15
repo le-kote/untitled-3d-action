@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// This component allows user to slide on sprint-crouching
+/// </summary>
 [RequireComponent(typeof(GenericMovement))]
 public class Sliding : MonoBehaviour, IEventSubscribedComponent
 {
@@ -34,7 +37,7 @@ public class Sliding : MonoBehaviour, IEventSubscribedComponent
     {
         SlideMovement();
     }
-    
+
     private void StartSlide()
     {
         _isSliding = true;
@@ -108,7 +111,7 @@ public class Sliding : MonoBehaviour, IEventSubscribedComponent
 
         if (ev.PrevState != MoveState.Running || ev.State != MoveState.Crouching)
             return;
-            
+
         StartSlide();
     }
 

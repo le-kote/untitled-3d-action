@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <summary>
+/// This component defines game object health
+/// </summary>
 public class Damageable : MonoBehaviour
 {
     [SerializeField]

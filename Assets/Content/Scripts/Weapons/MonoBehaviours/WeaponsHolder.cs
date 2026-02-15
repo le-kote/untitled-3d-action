@@ -59,7 +59,7 @@ public class WeaponsHolder : MonoBehaviour
                 continue;
 
             _queuedAttacks.RemoveAt(i);
-            TryAttack(weapon);
+            DoAttack(weapon);
         }
     }
 
@@ -68,7 +68,7 @@ public class WeaponsHolder : MonoBehaviour
     }
 
     #region Private API
-    private void TryAttack(BaseWeapon weapon)
+    private void DoAttack(BaseWeapon weapon)
     {
         switch (weapon)
         {
@@ -115,7 +115,8 @@ public class WeaponsHolder : MonoBehaviour
             var resuldDir = direction;
             var resultPos = camTransform.position;
 
-            if (i > 0)
+            // Modifies spread for every projectile
+            if (i > 0 || weapon.ApplySpreadToFirstProjectile)
             {
                 Quaternion rotation = camTransform.rotation;
                 var x = Random.Range(-weapon.Spread.x, weapon.Spread.x);
@@ -123,13 +124,17 @@ public class WeaponsHolder : MonoBehaviour
                 rotation.eulerAngles = new(x, y, rotation.eulerAngles.z);
 
                 resuldDir = rotation * direction;
+
+                // Adding a slight offset for projectile spawn position
                 resultPos += camTransform.right * x / 100 + camTransform.up * y / 100;
             }
 
+            // Instantiate and move projectile to scene
             var instance = Instantiate(weapon.Projectile);
             SceneManager.MoveGameObjectToScene(instance, SceneManager.GetActiveScene());
             instance.transform.position = resultPos + camTransform.forward * 0.75f - Vector3.up * 0.12f;
 
+            // Launch projectile
             var proj = instance.GetOrAddComponent<Projectile>();
             proj.Launch(_collider, resuldDir.normalized * weapon.ProjectileSpeed);
             Destroy(instance, weapon.ProjectileLifetime);
@@ -137,6 +142,11 @@ public class WeaponsHolder : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Tries to get currently active weapon scriptable object
+    /// </summary>
+    /// <param name="weapon"></param>
+    /// <returns>True if weapon exsists</returns>
     private bool TryGetCurrentWeapon([NotNullWhen(true)] out BaseWeapon? weapon)
     {
         if (!_firstWeapon && _weapon2 == null)
@@ -161,6 +171,7 @@ public class WeaponsHolder : MonoBehaviour
 
         if (!context.performed)
         {
+            // For delayed melee weapons
             if (weapon.StopAttacksOnButtonUp)
                 _queuedAttacks.Clear();
 

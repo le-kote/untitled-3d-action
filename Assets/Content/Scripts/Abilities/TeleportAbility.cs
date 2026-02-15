@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// This ability allows user to teleport on certain distance
+/// </summary>
 [RequireComponent(typeof(GenericMovement), typeof(CharacterController))]
 public class TeleportAbility : MonoBehaviour, IEventSubscribedComponent
 {
@@ -80,8 +83,8 @@ public class TeleportAbility : MonoBehaviour, IEventSubscribedComponent
             Debug.Log($"Raycast point: {result.point}, result point: {point}");
         }
 
-        var colliders = Physics.OverlapCapsule(point, 
-                                               point + (Vector3.up * _cc.height), 
+        var colliders = Physics.OverlapCapsule(point,
+                                               point + (Vector3.up * _cc.height),
                                                _cc.radius, _layerMask);
 
         var pointForRays = (linearCollider ? result.point : point) - forward * 0.25f;
@@ -113,9 +116,9 @@ public class TeleportAbility : MonoBehaviour, IEventSubscribedComponent
         }
         else
         {
-            if (!_isTeleporting)   
+            if (!_isTeleporting)
                 return;
-            
+
             _isTeleporting = false;
             _movement.MovementEnabled = false;
 
@@ -133,7 +136,7 @@ public class TeleportAbility : MonoBehaviour, IEventSubscribedComponent
         if (!isActiveAndEnabled)
             return;
 
-        if (!_isTeleporting) 
+        if (!_isTeleporting)
             return;
 
         _isTeleporting = false;

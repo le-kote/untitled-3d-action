@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// This component allows user to temporarily modify their movement speed
+/// </summary>
 public class SpeedModifyAbility : MonoBehaviour, IEventSubscribedComponent
 {
     [SerializeField]
@@ -11,7 +14,7 @@ public class SpeedModifyAbility : MonoBehaviour, IEventSubscribedComponent
 
     private float _abilityTimer = 0f;
     private bool _active = false;
-    
+
     // Update is called once per frame
     void Update()
     {

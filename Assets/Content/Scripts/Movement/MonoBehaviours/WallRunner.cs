@@ -5,6 +5,9 @@ using UnityEngine;
 
 #nullable enable
 
+/// <summary>
+/// This component allows user to wallrun
+/// </summary>
 [RequireComponent(typeof(GenericMovement), typeof(CharacterController))]
 public class WallRunner : MonoBehaviour, IEventSubscribedComponent
 {
@@ -18,15 +21,15 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
 
     [Header("Jumping")]
 
-    [SerializeField] 
+    [SerializeField]
     private float _jumpSpeed = 9f;
 
     [Header("Limits")]
 
-    [SerializeField] 
+    [SerializeField]
     private float _maxWallRunTime = 3;
 
-    [SerializeField] 
+    [SerializeField]
     private float _lastNormalResetDuration = 1.2f;
 
     [SerializeField]
@@ -47,10 +50,10 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
     [SerializeField]
     private LayerMask _groundLayer;
 
-    [SerializeField] 
+    [SerializeField]
     private float _maxWallDistance = 0.7f;
 
-    [SerializeField] 
+    [SerializeField]
     private float _minJumpHeight = 0.4f;
 
     [SerializeField]
@@ -151,7 +154,7 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
     private void StartWallRunning()
     {
         _wallRunning = true;
-        _movement.UseGravity = false; 
+        _movement.UseGravity = false;
 
         LerpCameraRotation();
 
@@ -224,7 +227,7 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
             dirAlongWall = -dirAlongWall;
 
         _direction = dirAlongWall * input.y;
-        
+
         ClampVerticalVelocity();
         LerpRotation();
     }

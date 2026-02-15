@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// This component makes owner deal damage on collide
+/// </summary>
 public class DamageOnCollide : MonoBehaviour
 {
     [SerializeField]

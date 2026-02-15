@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// This component allows user to perform air jumps
+/// </summary>
 [RequireComponent(typeof(GenericMovement))]
 public class MultipleJumps : MonoBehaviour, IEventSubscribedComponent
 {
@@ -23,7 +26,7 @@ public class MultipleJumps : MonoBehaviour, IEventSubscribedComponent
     }
 
     public void ReceiveMessage(GameEventArgs args)
-    {        
+    {
         if (args is CanJumpEvent ev)
             OnCanJump(ev);
 
