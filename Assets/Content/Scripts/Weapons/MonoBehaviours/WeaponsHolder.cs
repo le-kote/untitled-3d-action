@@ -26,6 +26,7 @@ public class WeaponsHolder : MonoBehaviour
     private GenericMovement _movement;
 
     private float _attackTimer = 0f;
+    private bool _isAttacking = false;
     private List<float> _queuedAttacks = new();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -43,7 +44,7 @@ public class WeaponsHolder : MonoBehaviour
         if (!TryGetCurrentWeapon(out var weapon))
             return;
 
-        if (_attackTimer <= 0f && weapon.Automatic)
+        if (_isAttacking && _attackTimer <= 0f && weapon.Automatic)
         {
             _queuedAttacks.Add(Time.time + weapon.DelayBeforeAttack);
             _attackTimer = weapon.AttackRate;
@@ -153,6 +154,8 @@ public class WeaponsHolder : MonoBehaviour
             if (weapon.StopAttacksOnButtonUp)
                 _queuedAttacks.Clear();
 
+            _isAttacking = false;
+
             return;
         }
 
@@ -161,5 +164,6 @@ public class WeaponsHolder : MonoBehaviour
 
         _queuedAttacks.Add(Time.time + weapon.DelayBeforeAttack);
         _attackTimer = weapon.AttackRate;
+        _isAttacking = weapon.Automatic;
     }
 }
