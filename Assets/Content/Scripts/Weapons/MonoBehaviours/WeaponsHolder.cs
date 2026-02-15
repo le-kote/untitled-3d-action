@@ -20,6 +20,9 @@ public class WeaponsHolder : MonoBehaviour
     [SerializeField]
     private bool _firstWeapon;
 
+    [SerializeField]
+    private Collider _collider;
+
     private GenericMovement _movement;
 
     private float _attackTimer = 0f;
@@ -123,7 +126,7 @@ public class WeaponsHolder : MonoBehaviour
             instance.transform.position = camTransform.position + camTransform.forward * 0.75f;
 
             var proj = instance.GetOrAddComponent<Projectile>();
-            proj.Launch(resuldDir.normalized * weapon.ProjectileSpeed);
+            proj.Launch(_collider, resuldDir.normalized * weapon.ProjectileSpeed);
         }
 
     }

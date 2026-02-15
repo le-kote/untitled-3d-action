@@ -5,22 +5,21 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public Vector3 Velocity = Vector3.zero;
+
+    [SerializeField]
     private Rigidbody _rb;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        _rb = GetComponent<Rigidbody>();
-    }
+    [SerializeField]
+    private Collider _collider;
 
     void FixedUpdate()
     {
         _rb.linearVelocity = new Vector3(Velocity.x, _rb.linearVelocity.y, Velocity.z);
     }
 
-    public void Launch(Vector3 force)
+    public void Launch(Collider userCollider, Vector3 force)
     {
-        _rb = gameObject.GetOrAddComponent<Rigidbody>();
+        Physics.IgnoreCollision(userCollider, _collider, true);
 
         Velocity = force;
         _rb.linearVelocity = force;
