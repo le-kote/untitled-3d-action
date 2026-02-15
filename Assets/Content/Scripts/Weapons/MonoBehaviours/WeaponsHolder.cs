@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 #nullable enable
 
@@ -67,6 +69,9 @@ public class WeaponsHolder : MonoBehaviour
             case MeleeWeapon melee:
                 AttackMelee(melee);
                 break;
+            case ProjectileWeapon projectile:
+                AttackProjectile(projectile);
+                break;
         }
     }
 
@@ -92,6 +97,35 @@ public class WeaponsHolder : MonoBehaviour
             damageable.TryChangeDamage(weapon.Damage);
             targetsHit++;
         }
+    }
+
+    private void AttackProjectile(ProjectileWeapon weapon)
+    {
+        var camTransform = _movement.CameraHolder.transform;
+        var direction = camTransform.forward;
+
+        for (var i = 0; i < weapon.FiredProjectiles; i++)
+        {
+            var resuldDir = direction;
+
+            if (i > 0)
+            {
+                Quaternion rotation = camTransform.rotation;
+                var x = Random.Range(-weapon.Spread.x, weapon.Spread.x);
+                var y = Random.Range(-weapon.Spread.y, weapon.Spread.y);
+                rotation.eulerAngles = new(x, y, rotation.eulerAngles.z);
+
+                resuldDir = rotation * direction;
+            }
+
+            var instance = Instantiate(weapon.Projectile);
+            SceneManager.MoveGameObjectToScene(instance, SceneManager.GetActiveScene());
+            instance.transform.position = camTransform.position + camTransform.forward * 0.75f;
+
+            var proj = instance.GetOrAddComponent<Projectile>();
+            proj.Launch(resuldDir.normalized * weapon.ProjectileSpeed);
+        }
+
     }
 
     private bool TryGetCurrentWeapon([NotNullWhen(true)] out BaseWeapon? weapon)

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c9b7d618fe699e429d7b3a1ba51d81b, type: 3}
+  m_Name: DebugProjectile
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileWeapon
+  DelayBeforeAttack: 0
+  AttackRate: 0
+  Automatic: 0
+  StopAttacksOnButtonUp: 0
+  Projectile: {fileID: 6521787214382137834, guid: e0f39e1edb4d5f54fa23fcb4ece18761, type: 3}
+  ProjectileSpeed: 1
+  FiredProjectiles: 1
+  Spread: {x: 0, y: 0}
+  Capacity: 15
+  ReloadDuration: 0
