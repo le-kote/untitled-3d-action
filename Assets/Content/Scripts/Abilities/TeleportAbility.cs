@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 /// This ability allows user to teleport on certain distance
 /// </summary>
 [RequireComponent(typeof(GenericMovement), typeof(CharacterController))]
-public class TeleportAbility : MonoBehaviour, IEventSubscribedComponent
+public class TeleportAbility : MonoBehaviour
 {
     [SerializeField]
     private float _distance = 12f;
@@ -22,6 +22,9 @@ public class TeleportAbility : MonoBehaviour, IEventSubscribedComponent
 
     [SerializeField]
     private LayerMask _layerMask;
+
+    [SerializeField]
+    private float _maxTeleportDuration = 0.5f;
 
     private GenericMovement _movement;
     private CharacterController _cc;
@@ -73,31 +76,16 @@ public class TeleportAbility : MonoBehaviour, IEventSubscribedComponent
         var forward = cameraTransform.forward.normalized;
 
         var point = cameraTransform.position + (forward * _distance);
-        var linearCollider = Physics.Raycast(cameraTransform.position, forward, out var result, _distance, _layerMask);
+        var linearCollider = Physics.CapsuleCast(cameraTransform.position + Vector3.down * _cc.height / 4,
+                                                 cameraTransform.position + Vector3.up * _cc.height / 4,
+                                                 _cc.radius, forward, out var result, _distance, _layerMask);
 
         if (linearCollider)
         {
-            point = result.point;
-            point.x -= transform.forward.x * _cc.radius;
-            point.z -= transform.forward.z * _cc.radius;
+            var pointBefore = cameraTransform.position + forward * (result.distance - 0.05f);
+            point = pointBefore - (forward * _cc.height / 2);
+
             Debug.Log($"Raycast point: {result.point}, result point: {point}");
-        }
-
-        var colliders = Physics.OverlapCapsule(point,
-                                               point + (Vector3.up * _cc.height),
-                                               _cc.radius, _layerMask);
-
-        var pointForRays = (linearCollider ? result.point : point) - forward * 0.25f;
-
-        foreach (var item in colliders)
-        {
-            var vec = item.ClosestPoint(point) - pointForRays;
-
-            if (Physics.Raycast(pointForRays, vec, out var colliderResult, vec.magnitude + 0.25f))
-            {
-                var useHeight = colliderResult.normal == Vector3.up || colliderResult.normal == Vector3.down;
-                point += colliderResult.normal * (useHeight ? _cc.height / 2 : _cc.radius + 0.1f);
-            }
         }
 
         _effect.transform.position = point;
@@ -122,9 +110,13 @@ public class TeleportAbility : MonoBehaviour, IEventSubscribedComponent
             _isTeleporting = false;
             _movement.MovementEnabled = false;
 
-            _movement.SetVelocity(Vector3.zero);
 
-            var move = transform.DOLocalMove(_effect.transform.position, 0.5f);
+            var distanceDivided = (_effect.transform.position - _movement.CameraHolder.transform.position).magnitude / _distance;
+
+            var duration = _maxTeleportDuration * distanceDivided;
+            _movement.SetVelocity(_movement.Velocity * Mathf.Min(1, 1.5f - distanceDivided));
+
+            var move = transform.DOLocalMove(_effect.transform.position, duration);
             move.onComplete += () => _movement.MovementEnabled = true;
 
             Destroy(_effect);
@@ -141,17 +133,5 @@ public class TeleportAbility : MonoBehaviour, IEventSubscribedComponent
 
         _isTeleporting = false;
         Destroy(_effect);
-    }
-
-    public void ReceiveMessage(GameEventArgs args)
-    {
-        if (!_isTeleporting)
-            return;
-
-        // if (args is CanJumpEvent canJump)
-        // {
-        //     canJump.Handled = true;
-        //     canJump.CanJump = false;
-        // }
     }
 }
