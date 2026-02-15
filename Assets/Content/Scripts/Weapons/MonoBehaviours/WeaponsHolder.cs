@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 #nullable enable
 
+[RequireComponent(typeof(GenericMovement))]
 public class WeaponsHolder : MonoBehaviour
 {
     [SerializeField]
@@ -17,15 +18,15 @@ public class WeaponsHolder : MonoBehaviour
     [SerializeField]
     private bool _firstWeapon;
 
+    private GenericMovement _movement;
+
     private float _attackTimer = 0f;
-    private float _untilAttack = -1f;
-    private bool _isAttacking = false;
     private List<float> _queuedAttacks = new();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        _movement = GetComponent<GenericMovement>();
     }
 
     // Update is called once per frame
@@ -71,8 +72,10 @@ public class WeaponsHolder : MonoBehaviour
 
     private void AttackMelee(MeleeWeapon weapon)
     {
+        var camTransform = _movement.CameraHolder.transform;
+
         var extents = new Vector3(weapon.AttackWidth / 2, weapon.AttackHeight / 2, weapon.AttackRange / 2);
-        var attackPos = transform.position + transform.forward * weapon.AttackRange / 2;
+        var attackPos = camTransform.position + camTransform.forward * weapon.AttackRange / 2;
 
         var cast = Physics.OverlapBox(attackPos, extents, transform.rotation, weapon.Layers);
         cast.OrderBy(x => (x.transform.position - transform.position).magnitude);
@@ -86,7 +89,7 @@ public class WeaponsHolder : MonoBehaviour
             if (!item.TryGetComponent<Damageable>(out var damageable))
                 continue;
 
-            damageable.TryChangeDamage(weapon.Damage);  
+            damageable.TryChangeDamage(weapon.Damage);
             targetsHit++;
         }
     }
