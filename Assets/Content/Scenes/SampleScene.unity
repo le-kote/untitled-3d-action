@@ -4183,10 +4183,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 293998707422680905, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: _wallrunEffect
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 1875792780243774822, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.9378304

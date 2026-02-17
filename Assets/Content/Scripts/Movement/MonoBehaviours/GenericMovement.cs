@@ -125,8 +125,8 @@ public class GenericMovement : MonoBehaviour
         if (!MovementEnabled)
             return;
 
-        UpdateMovement();
         UpdateHeight();
+        UpdateMovement();
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
@@ -177,8 +177,13 @@ public class GenericMovement : MonoBehaviour
         if (diff < 0.001f)
             height = targetHeight;
 
-        _cc.height = Mathf.Lerp(_cc.height, height, _heightChangeSpeed * Time.deltaTime);
+        var change = _heightChangeSpeed * Time.deltaTime;
+
+        _cc.height = Mathf.Lerp(_cc.height, height, change);
         transform.localScale = new Vector3(transform.localScale.x, height / 2, transform.localScale.z);
+
+        if (diff > 0.001f && IsGrounded)
+            _cc.Move(Vector3.up * -change);
     }
 
     #region Private API
