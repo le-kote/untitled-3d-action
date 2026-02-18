@@ -19,6 +19,12 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
     [SerializeField]
     private float _rotationLerpAmount = 4;
 
+    [SerializeField]
+    private float _wallrunAcceleration = 6;
+
+    [SerializeField]
+    private float _wallrunDeceleration = 2;
+
     [Header("Jumping")]
 
     [SerializeField]
@@ -324,6 +330,19 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
         {
             canJump.CanJump = true;
             canJump.Handled = true;
+        }
+
+        if (args is GetMoveAccelerationOverrideEvent accel)
+        {
+            accel.Acceleration = _wallrunAcceleration;
+            accel.Deceleration = _wallrunDeceleration;
+            accel.Handled = true;
+        }
+
+        if (args is GetMoveDirectionOverrideEvent dirEv)
+        {
+            dirEv.Dir = _direction;
+            dirEv.Handled = true;
         }
     }
 }
