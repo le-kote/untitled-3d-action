@@ -33,4 +33,6 @@ public sealed class ProjectileWeapon : BaseWeapon
     /// Should we apply spread for first projectile or it should always be fired at the center
     /// </summary>
     public bool ApplySpreadToFirstProjectile;
+
+    public float PhysicalRecoil;
 }

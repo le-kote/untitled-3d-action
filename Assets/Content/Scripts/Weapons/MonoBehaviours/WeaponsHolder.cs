@@ -140,6 +140,8 @@ public class WeaponsHolder : MonoBehaviour
             Destroy(instance, weapon.ProjectileLifetime);
         }
 
+        if (weapon.PhysicalRecoil > 0f)
+            _movement.ApplyForce(-direction * weapon.PhysicalRecoil);
     }
 
     /// <summary>
