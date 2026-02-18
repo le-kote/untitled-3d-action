@@ -22,3 +22,4 @@ MonoBehaviour:
   ProjectileLifetime: 1.3
   Spread: {x: 10, y: 8}
   ApplySpreadToFirstProjectile: 0
+  PhysicalRecoil: 5
