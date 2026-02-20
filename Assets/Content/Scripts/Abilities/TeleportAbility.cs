@@ -1,13 +1,9 @@
 using System.Linq;
 using DG.Tweening;
-using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// This ability allows user to teleport on certain distance
-/// </summary>
 [RequireComponent(typeof(GenericMovement), typeof(CharacterController))]
 public class TeleportAbility : MonoBehaviour
 {
@@ -26,21 +22,38 @@ public class TeleportAbility : MonoBehaviour
     [SerializeField]
     private float _maxTeleportDuration = 0.5f;
 
+    [Header("Teleport Settings")]
+    [SerializeField]
+    private bool _requireGrounded = true;
+
+    [SerializeField]
+    private bool _requireSurfaceComponent = true;
+    
+    [SerializeField]
+    private float _surfaceOffset = 1.5f;
+
+    [Header("Collision Detection")]
+    [SerializeField]
+    private LayerMask _obstacleMask = -1;
+    
+    [SerializeField]
+    private float _obstacleCheckRadius = 0.5f;
+
     private GenericMovement _movement;
     private CharacterController _cc;
 
     private bool _isTeleporting = false;
-    // private Vector3 _teleportPoint = Vector3.zero;
     private GameObject _effect;
+    private TeleportSurface _currentTeleportSurface;
+    private Vector3 _targetPosition;
+    private Vector3 _surfaceNormal;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _movement = GetComponent<GenericMovement>();
         _cc = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         ClampVelocity();
@@ -58,7 +71,6 @@ public class TeleportAbility : MonoBehaviour
         if (_movement.Velocity.y >= 0)
             return;
 
-        Debug.Log($"Velocity - {_movement.Velocity.y}, clamping");
         var velocity = Vector3.Lerp(_movement.Velocity, Vector3.zero, _lerpSpeed * Time.deltaTime);
         if (velocity.magnitude < 0.01f)
             velocity = Vector3.zero;
@@ -72,23 +84,53 @@ public class TeleportAbility : MonoBehaviour
             return;
 
         var cameraTransform = _movement.CameraHolder.transform;
-
         var forward = cameraTransform.forward.normalized;
+        var startPos = cameraTransform.position;
 
-        var point = cameraTransform.position + (forward * _distance);
-        var linearCollider = Physics.CapsuleCast(cameraTransform.position + Vector3.down * _cc.height / 4,
-                                                 cameraTransform.position + Vector3.up * _cc.height / 4,
-                                                 _cc.radius, forward, out var result, _distance, _layerMask);
+        _currentTeleportSurface = null;
+        _targetPosition = startPos + (forward * _distance);
 
-        if (linearCollider)
+        if (Physics.CapsuleCast(startPos + Vector3.down * _cc.height / 4,
+                               startPos + Vector3.up * _cc.height / 4,
+                               _cc.radius, forward, out RaycastHit hit, _distance, _layerMask))
         {
-            var pointBefore = cameraTransform.position + forward * (result.distance - 0.05f);
-            point = pointBefore - (forward * _cc.height / 2);
-
-            Debug.Log($"Raycast point: {result.point}, result point: {point}");
+            TeleportSurface surface = hit.collider.GetComponent<TeleportSurface>();
+            
+            if (surface != null && surface.CanTeleport())
+            {
+                _surfaceNormal = hit.normal;
+                
+                Vector3 teleportPos = hit.point + (_surfaceNormal * _surfaceOffset);
+                
+                teleportPos += Vector3.up * (_cc.height / 2);
+                
+                if (IsPositionClear(teleportPos))
+                {
+                    _targetPosition = teleportPos;
+                    _currentTeleportSurface = surface;
+                }
+            }
         }
 
-        _effect.transform.position = point;
+        _effect.transform.position = _targetPosition;
+    }
+
+    private bool IsPositionClear(Vector3 position)
+    {
+        return !Physics.CheckSphere(position + Vector3.up * (_cc.height / 2 - 0.1f), 
+                                   _obstacleCheckRadius, 
+                                   _obstacleMask);
+    }
+
+    private bool IsTeleportPathClear(Vector3 start, Vector3 end)
+    {
+        Vector3 direction = end - start;
+        float distance = direction.magnitude;
+        
+        return !Physics.CapsuleCast(start + Vector3.down * _cc.height / 4,
+                                   start + Vector3.up * _cc.height / 4,
+                                   _cc.radius, direction.normalized, 
+                                   distance, _obstacleMask);
     }
 
     public void DoTeleport(InputAction.CallbackContext context)
@@ -98,26 +140,58 @@ public class TeleportAbility : MonoBehaviour
 
         if (context.performed)
         {
+            if (_requireGrounded && !_movement.IsGrounded)
+            {
+                return;
+            }
+
             _isTeleporting = true;
             _effect = Instantiate(_effectInstance);
             SceneManager.MoveGameObjectToScene(_effect, SceneManager.GetActiveScene());
         }
-        else
+        else if (context.canceled)
         {
             if (!_isTeleporting)
                 return;
 
             _isTeleporting = false;
+
+            if (_requireSurfaceComponent && _currentTeleportSurface == null)
+            {
+                Destroy(_effect);
+                return;
+            }
+
+            Vector3 startPos = transform.position;
+            
+            if (!IsTeleportPathClear(startPos, _targetPosition))
+            {
+                Destroy(_effect);
+                return;
+            }
+
+            if (!IsPositionClear(_targetPosition))
+            {
+                Destroy(_effect);
+                return;
+            }
+
             _movement.MovementEnabled = false;
 
-
-            var distanceDivided = (_effect.transform.position - _movement.CameraHolder.transform.position).magnitude / _distance;
-
-            var duration = _maxTeleportDuration * distanceDivided;
+            float distanceDivided = (_targetPosition - _movement.CameraHolder.transform.position).magnitude / _distance;
+            float duration = _maxTeleportDuration * distanceDivided;
+            
             _movement.SetVelocity(_movement.Velocity * Mathf.Min(1, 1.5f - distanceDivided));
 
-            var move = transform.DOLocalMove(_effect.transform.position, duration);
-            move.onComplete += () => _movement.MovementEnabled = true;
+            transform.DOMove(_targetPosition, duration).onComplete += () => 
+            {
+                _movement.MovementEnabled = true;
+                
+                if (_currentTeleportSurface != null)
+                {
+                    _currentTeleportSurface.OnTeleportArrival(gameObject);
+                }
+            };
 
             Destroy(_effect);
         }
@@ -132,6 +206,7 @@ public class TeleportAbility : MonoBehaviour
             return;
 
         _isTeleporting = false;
+        _currentTeleportSurface = null;
         Destroy(_effect);
     }
 }
