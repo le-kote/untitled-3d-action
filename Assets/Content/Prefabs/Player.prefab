@@ -187,11 +187,11 @@ MonoBehaviour:
   _crouchHeight: 0.25
   _height: 2
   _heightChangeSpeed: 40
-  _acceleration: 15
-  _airAcceleration: 2
+  _acceleration: 20
+  _airAcceleration: 1.2
   _deceleration: 12
   _airDeceleration: 0
-  _sprintAcceleration: 20
+  _sprintAcceleration: 25
   _sprintDeceleration: 15
   _cameraSpeed: 50
   _cameraYLimits: 85
@@ -429,6 +429,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WallRunner
   _verticalVelocityDeceleration: 4
   _rotationLerpAmount: 3
+  _wallrunAcceleration: 6
+  _wallrunDeceleration: 2
   _jumpSpeed: 9
   _maxWallRunTime: 3
   _lastNormalResetDuration: 1.2
