@@ -25,6 +25,9 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
     [SerializeField]
     private float _wallrunDeceleration = 2;
 
+    [SerializeField]
+    private float _sideCameraRotationDuration = 0.25f;
+
     [Header("Jumping")]
 
     [SerializeField]
@@ -92,6 +95,7 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
     private bool _wallRunning;
     private Vector3? _lastNormal = null;
     private bool _jumping;
+    private float _jumpTimer = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -171,6 +175,7 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
     private void StopWallRunning()
     {
         _wallRunning = false;
+        _jumpTimer = 0f;
         _movement.UseGravity = true;
 
         LerpCameraRotation();
@@ -180,6 +185,8 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
     {
         if (!_wallRunning)
             return;
+
+        _jumpTimer += Time.deltaTime;
 
         if (_jumping)
             HandleWallJumping();
@@ -201,6 +208,7 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
         Vector3 wallNormal = _wallRight ? _rightWallRay.normal : _leftWallRay.normal;
 
         _jumping = false;
+        _jumpTimer = 0f;
         _movement.ApplyForce(wallNormal * _jumpSpeed);
         _movement.ApplyForce(transform.forward * (_jumpSpeed / 2));
 
@@ -265,7 +273,7 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
     {
         var targetAngle = _wallRunning ? (_wallRight ? _onWallAngle : -_onWallAngle) : 0f;
 
-        _camera.transform.DOLocalRotate(new Vector3(0f, 0f, targetAngle), 0.25f);
+        _camera.transform.DOLocalRotate(new Vector3(0f, 0f, targetAngle), _sideCameraRotationDuration);
     }
 
     private bool AboveGround()
@@ -321,17 +329,6 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
         if (!_wallRunning)
             return;
 
-        if (args is JumpEvent)
-        {
-            _jumping = true;
-        }
-
-        if (args is CanJumpEvent canJump)
-        {
-            canJump.CanJump = true;
-            canJump.Handled = true;
-        }
-
         if (args is GetMoveAccelerationOverrideEvent accel)
         {
             accel.Acceleration = _wallrunAcceleration;
@@ -343,6 +340,20 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
         {
             dirEv.Dir = _direction;
             dirEv.Handled = true;
+        }
+
+        if (_jumpTimer < _sideCameraRotationDuration)
+            return;
+
+        if (args is JumpEvent)
+        {
+            _jumping = true;
+        }
+
+        if (args is CanJumpEvent canJump)
+        {
+            canJump.CanJump = true;
+            canJump.Handled = true;
         }
     }
 }
