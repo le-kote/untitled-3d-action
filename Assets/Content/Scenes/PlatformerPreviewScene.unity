@@ -370,6 +370,8 @@ GameObject:
   - component: {fileID: 83939917}
   - component: {fileID: 83939916}
   - component: {fileID: 83939915}
+  - component: {fileID: 83939920}
+  - component: {fileID: 83939919}
   m_Layer: 7
   m_Name: Ground (8)
   m_TagString: Untagged
@@ -470,6 +472,66 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 30, z: 0}
+--- !u!114 &83939919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83939914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c349247fe15f4324883d4e105940f299, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportTarget
+  _allowTeleport: 1
+  _teleportOffset: {x: 0, y: 0, z: 0}
+  _requireFacingDirection: 0
+  _allowedDirection: {x: 0, y: 0, z: 1}
+  _directionTolerance: 45
+  _arrivalEffectPrefab: {fileID: 0}
+  _arrivalSound: {fileID: 0}
+  _highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  _onTeleportArrival:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTeleportDeparture:
+    m_PersistentCalls:
+      m_Calls: []
+  _minDistanceFromCenter: 0
+  _maxDistanceFromCenter: 3.4028235e+38
+  _requireInView: 0
+  _viewObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &83939920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83939914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6525ae9a6a9e25b48939fbbb37d941fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportSurface
+  _allowTeleport: 1
+  _teleportOffset: {x: 0, y: 0, z: 0}
+  _requireFacingDirection: 0
+  _allowedDirection: {x: 0, y: 0, z: 1}
+  _directionTolerance: 45
+  _arrivalEffectPrefab: {fileID: 0}
+  _arrivalSound: {fileID: 0}
+  _highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  _onTeleportArrival:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTeleportDeparture:
+    m_PersistentCalls:
+      m_Calls: []
+  _minDistanceFromCenter: 0
+  _maxDistanceFromCenter: 3.4028235e+38
 --- !u!1 &138981773
 GameObject:
   m_ObjectHideFlags: 0
@@ -2682,6 +2744,8 @@ GameObject:
   - component: {fileID: 1308686621}
   - component: {fileID: 1308686620}
   - component: {fileID: 1308686619}
+  - component: {fileID: 1308686624}
+  - component: {fileID: 1308686623}
   m_Layer: 7
   m_Name: Ground (1)
   m_TagString: Untagged
@@ -2782,6 +2846,66 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1308686623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308686618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6525ae9a6a9e25b48939fbbb37d941fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportSurface
+  _allowTeleport: 1
+  _teleportOffset: {x: 0, y: 0, z: 0}
+  _requireFacingDirection: 0
+  _allowedDirection: {x: 0, y: 0, z: 1}
+  _directionTolerance: 45
+  _arrivalEffectPrefab: {fileID: 0}
+  _arrivalSound: {fileID: 0}
+  _highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  _onTeleportArrival:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTeleportDeparture:
+    m_PersistentCalls:
+      m_Calls: []
+  _minDistanceFromCenter: 0
+  _maxDistanceFromCenter: 3.4028235e+38
+--- !u!114 &1308686624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308686618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c349247fe15f4324883d4e105940f299, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportTarget
+  _allowTeleport: 1
+  _teleportOffset: {x: 0, y: 0, z: 0}
+  _requireFacingDirection: 0
+  _allowedDirection: {x: 0, y: 0, z: 1}
+  _directionTolerance: 45
+  _arrivalEffectPrefab: {fileID: 0}
+  _arrivalSound: {fileID: 0}
+  _highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  _onTeleportArrival:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTeleportDeparture:
+    m_PersistentCalls:
+      m_Calls: []
+  _minDistanceFromCenter: 0
+  _maxDistanceFromCenter: 3.4028235e+38
+  _requireInView: 0
+  _viewObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1321045724
 GameObject:
   m_ObjectHideFlags: 0
@@ -2794,6 +2918,8 @@ GameObject:
   - component: {fileID: 1321045727}
   - component: {fileID: 1321045726}
   - component: {fileID: 1321045725}
+  - component: {fileID: 1321045730}
+  - component: {fileID: 1321045729}
   m_Layer: 7
   m_Name: Ground (3)
   m_TagString: Untagged
@@ -2894,6 +3020,66 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 15, z: 0}
+--- !u!114 &1321045729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321045724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6525ae9a6a9e25b48939fbbb37d941fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportSurface
+  _allowTeleport: 1
+  _teleportOffset: {x: 0, y: 0, z: 0}
+  _requireFacingDirection: 0
+  _allowedDirection: {x: 0, y: 0, z: 1}
+  _directionTolerance: 45
+  _arrivalEffectPrefab: {fileID: 0}
+  _arrivalSound: {fileID: 0}
+  _highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  _onTeleportArrival:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTeleportDeparture:
+    m_PersistentCalls:
+      m_Calls: []
+  _minDistanceFromCenter: 0
+  _maxDistanceFromCenter: 3.4028235e+38
+--- !u!114 &1321045730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321045724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c349247fe15f4324883d4e105940f299, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportTarget
+  _allowTeleport: 1
+  _teleportOffset: {x: 0, y: 0, z: 0}
+  _requireFacingDirection: 0
+  _allowedDirection: {x: 0, y: 0, z: 1}
+  _directionTolerance: 45
+  _arrivalEffectPrefab: {fileID: 0}
+  _arrivalSound: {fileID: 0}
+  _highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  _onTeleportArrival:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTeleportDeparture:
+    m_PersistentCalls:
+      m_Calls: []
+  _minDistanceFromCenter: 0
+  _maxDistanceFromCenter: 3.4028235e+38
+  _requireInView: 0
+  _viewObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1351793664
 GameObject:
   m_ObjectHideFlags: 0
@@ -3242,6 +3428,7 @@ GameObject:
   - component: {fileID: 1490494181}
   - component: {fileID: 1490494180}
   - component: {fileID: 1490494179}
+  - component: {fileID: 1490494183}
   m_Layer: 7
   m_Name: Ground (4)
   m_TagString: Untagged
@@ -3342,6 +3529,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 30, z: 0}
+--- !u!114 &1490494183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490494178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c349247fe15f4324883d4e105940f299, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportTarget
+  _allowTeleport: 1
+  _teleportOffset: {x: 0, y: 0, z: 0}
+  _requireFacingDirection: 0
+  _allowedDirection: {x: 0, y: 0, z: 1}
+  _directionTolerance: 45
+  _arrivalEffectPrefab: {fileID: 0}
+  _arrivalSound: {fileID: 0}
+  _highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  _onTeleportArrival:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTeleportDeparture:
+    m_PersistentCalls:
+      m_Calls: []
+  _minDistanceFromCenter: 0
+  _maxDistanceFromCenter: 3.4028235e+38
+  _requireInView: 0
+  _viewObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1549989314
 GameObject:
   m_ObjectHideFlags: 0
@@ -3578,6 +3797,8 @@ GameObject:
   - component: {fileID: 1709208972}
   - component: {fileID: 1709208971}
   - component: {fileID: 1709208970}
+  - component: {fileID: 1709208975}
+  - component: {fileID: 1709208974}
   m_Layer: 7
   m_Name: Ground (7)
   m_TagString: Untagged
@@ -3678,6 +3899,66 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 30, z: 0}
+--- !u!114 &1709208974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1709208969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c349247fe15f4324883d4e105940f299, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportTarget
+  _allowTeleport: 1
+  _teleportOffset: {x: 0, y: 0, z: 0}
+  _requireFacingDirection: 0
+  _allowedDirection: {x: 0, y: 0, z: 1}
+  _directionTolerance: 45
+  _arrivalEffectPrefab: {fileID: 0}
+  _arrivalSound: {fileID: 0}
+  _highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  _onTeleportArrival:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTeleportDeparture:
+    m_PersistentCalls:
+      m_Calls: []
+  _minDistanceFromCenter: 0
+  _maxDistanceFromCenter: 3.4028235e+38
+  _requireInView: 0
+  _viewObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &1709208975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1709208969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6525ae9a6a9e25b48939fbbb37d941fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportSurface
+  _allowTeleport: 1
+  _teleportOffset: {x: 0, y: 0, z: 0}
+  _requireFacingDirection: 0
+  _allowedDirection: {x: 0, y: 0, z: 1}
+  _directionTolerance: 45
+  _arrivalEffectPrefab: {fileID: 0}
+  _arrivalSound: {fileID: 0}
+  _highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  _onTeleportArrival:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTeleportDeparture:
+    m_PersistentCalls:
+      m_Calls: []
+  _minDistanceFromCenter: 0
+  _maxDistanceFromCenter: 3.4028235e+38
 --- !u!1 &1894204632
 GameObject:
   m_ObjectHideFlags: 0
@@ -3914,6 +4195,8 @@ GameObject:
   - component: {fileID: 1940913141}
   - component: {fileID: 1940913140}
   - component: {fileID: 1940913139}
+  - component: {fileID: 1940913144}
+  - component: {fileID: 1940913143}
   m_Layer: 7
   m_Name: Ground (2)
   m_TagString: Untagged
@@ -4014,6 +4297,66 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1940913143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940913138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6525ae9a6a9e25b48939fbbb37d941fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportSurface
+  _allowTeleport: 1
+  _teleportOffset: {x: 0, y: 0, z: 0}
+  _requireFacingDirection: 0
+  _allowedDirection: {x: 0, y: 0, z: 1}
+  _directionTolerance: 45
+  _arrivalEffectPrefab: {fileID: 0}
+  _arrivalSound: {fileID: 0}
+  _highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  _onTeleportArrival:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTeleportDeparture:
+    m_PersistentCalls:
+      m_Calls: []
+  _minDistanceFromCenter: 0
+  _maxDistanceFromCenter: 3.4028235e+38
+--- !u!114 &1940913144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940913138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c349247fe15f4324883d4e105940f299, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportTarget
+  _allowTeleport: 1
+  _teleportOffset: {x: 0, y: 0, z: 0}
+  _requireFacingDirection: 0
+  _allowedDirection: {x: 0, y: 0, z: 1}
+  _directionTolerance: 45
+  _arrivalEffectPrefab: {fileID: 0}
+  _arrivalSound: {fileID: 0}
+  _highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  _onTeleportArrival:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTeleportDeparture:
+    m_PersistentCalls:
+      m_Calls: []
+  _minDistanceFromCenter: 0
+  _maxDistanceFromCenter: 3.4028235e+38
+  _requireInView: 0
+  _viewObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1962062645
 GameObject:
   m_ObjectHideFlags: 0
@@ -4026,6 +4369,8 @@ GameObject:
   - component: {fileID: 1962062648}
   - component: {fileID: 1962062647}
   - component: {fileID: 1962062646}
+  - component: {fileID: 1962062651}
+  - component: {fileID: 1962062650}
   m_Layer: 7
   m_Name: Ground (6)
   m_TagString: Untagged
@@ -4126,6 +4471,66 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 30, z: 0}
+--- !u!114 &1962062650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1962062645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c349247fe15f4324883d4e105940f299, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportTarget
+  _allowTeleport: 1
+  _teleportOffset: {x: 0, y: 0, z: 0}
+  _requireFacingDirection: 0
+  _allowedDirection: {x: 0, y: 0, z: 1}
+  _directionTolerance: 45
+  _arrivalEffectPrefab: {fileID: 0}
+  _arrivalSound: {fileID: 0}
+  _highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  _onTeleportArrival:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTeleportDeparture:
+    m_PersistentCalls:
+      m_Calls: []
+  _minDistanceFromCenter: 0
+  _maxDistanceFromCenter: 3.4028235e+38
+  _requireInView: 0
+  _viewObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &1962062651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1962062645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6525ae9a6a9e25b48939fbbb37d941fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportSurface
+  _allowTeleport: 1
+  _teleportOffset: {x: 0, y: 0, z: 0}
+  _requireFacingDirection: 0
+  _allowedDirection: {x: 0, y: 0, z: 1}
+  _directionTolerance: 45
+  _arrivalEffectPrefab: {fileID: 0}
+  _arrivalSound: {fileID: 0}
+  _highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  _onTeleportArrival:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTeleportDeparture:
+    m_PersistentCalls:
+      m_Calls: []
+  _minDistanceFromCenter: 0
+  _maxDistanceFromCenter: 3.4028235e+38
 --- !u!1 &1986803774
 GameObject:
   m_ObjectHideFlags: 0

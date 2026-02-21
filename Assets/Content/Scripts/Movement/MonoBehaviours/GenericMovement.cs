@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 /// This component handles the most common movement, such as walking, running, crouching and jumping
 /// </summary>
 [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(AudioSource))]
 public class GenericMovement : MonoBehaviour
 {
     [Header("Movement")]
@@ -79,6 +80,46 @@ public class GenericMovement : MonoBehaviour
     [SerializeField]
     private Camera _camera;
 
+    [Header("Audio Settings")]
+    [SerializeField]
+    private AudioSource _footstepAudioSource;
+    
+    [SerializeField]
+    private AudioSource _jumpAudioSource;
+    
+    [SerializeField]
+    private AudioSource _landAudioSource;
+    
+    [SerializeField]
+    private AudioClip[] _footstepSounds;
+    
+    [SerializeField]
+    private AudioClip _jumpSound;
+    
+    [SerializeField]
+    private AudioClip _landSound;
+    
+    [SerializeField]
+    [Range(0.1f, 1f)]
+    private float _footstepVolume = 0.5f;
+    
+    [SerializeField]
+    [Range(0.1f, 1f)]
+    private float _jumpVolume = 0.7f;
+    
+    [SerializeField]
+    [Range(0.1f, 1f)]
+    private float _landVolume = 0.6f;
+    
+    [SerializeField]
+    private float _walkStepInterval = 0.5f;
+    
+    [SerializeField]
+    private float _sprintStepInterval = 0.3f;
+    
+    [SerializeField]
+    private float _crouchStepInterval = 0.8f;
+
     public GameObject CameraHolder;
 
     private CharacterController _cc;
@@ -88,6 +129,9 @@ public class GenericMovement : MonoBehaviour
     private float _verticalRotation = 0f;
     private bool _jumping = false;
     private Vector3 _groundNormal = Vector3.up;
+    
+    private float _stepTimer = 0f;
+    private bool _wasGrounded = true;
 
     /// <summary>
     /// Should player moving or not
@@ -114,6 +158,8 @@ public class GenericMovement : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        
+        InitializeAudio();
     }
 
     // Update is called once per frame
@@ -121,6 +167,9 @@ public class GenericMovement : MonoBehaviour
     {
         UpdateCamera();
         UpdateGrounded();
+        
+        CheckLanding();
+        UpdateFootsteps();
 
         if (!MovementEnabled)
             return;
@@ -132,6 +181,96 @@ public class GenericMovement : MonoBehaviour
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         _groundNormal = hit.normal;
+    }
+
+   private void InitializeAudio()
+{
+    if (_footstepAudioSource == null)
+        _footstepAudioSource = gameObject.AddComponent<AudioSource>();
+        
+    if (_jumpAudioSource == null)
+        _jumpAudioSource = gameObject.AddComponent<AudioSource>();
+        
+    if (_landAudioSource == null)
+        _landAudioSource = gameObject.AddComponent<AudioSource>();
+        
+    _footstepAudioSource.spatialBlend = 1f;
+    _footstepAudioSource.volume = _footstepVolume;
+    
+    _jumpAudioSource.spatialBlend = 1f;
+    _jumpAudioSource.volume = _jumpVolume;
+    
+    _landAudioSource.spatialBlend = 1f;
+    _landAudioSource.volume = _landVolume;
+}
+
+    private void CheckLanding()
+    {
+        if (!_wasGrounded && IsGrounded)
+        {
+            PlayLandSound();
+        }
+        
+        _wasGrounded = IsGrounded;
+    }
+
+    private void UpdateFootsteps()
+    {
+        if (!IsGrounded || Input.magnitude < 0.1f)
+        {
+            _stepTimer = 0f;
+            return;
+        }
+
+        float currentSpeed = Velocity.magnitude;
+        if (currentSpeed < 0.5f)
+        {
+            _stepTimer = 0f;
+            return;
+        }
+
+        float interval = CurrentMoveState switch
+        {
+            MoveState.Running => _sprintStepInterval,
+            MoveState.Crouching => _crouchStepInterval,
+            _ => _walkStepInterval
+        };
+
+        _stepTimer += Time.deltaTime;
+
+        if (_stepTimer >= interval)
+        {
+            PlayFootstepSound();
+            _stepTimer = 0f;
+        }
+    }
+
+    private void PlayFootstepSound()
+    {
+        if (_footstepSounds == null || _footstepSounds.Length == 0)
+            return;
+
+        AudioClip clip = _footstepSounds[Random.Range(0, _footstepSounds.Length)];
+        _footstepAudioSource.pitch = Random.Range(0.9f, 1.1f);
+        _footstepAudioSource.PlayOneShot(clip, _footstepVolume);
+    }
+
+    private void PlayJumpSound()
+    {
+        if (_jumpSound != null && _jumpAudioSource != null)
+        {
+            _jumpAudioSource.pitch = Random.Range(0.9f, 1.1f);
+            _jumpAudioSource.PlayOneShot(_jumpSound, _jumpVolume);
+        }
+    }
+
+    private void PlayLandSound()
+    {
+        if (_landSound != null && _landAudioSource != null)
+        {
+            _landAudioSource.pitch = Random.Range(0.8f, 1.2f);
+            _landAudioSource.PlayOneShot(_landSound, _landVolume);
+        }
     }
 
     private void UpdateCamera()
@@ -385,6 +524,7 @@ public class GenericMovement : MonoBehaviour
         {
             this.RaiseEvent(new JumpEvent());
             _jumping = true;
+            PlayJumpSound();
         }
     }
 
