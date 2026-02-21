@@ -35,4 +35,20 @@ public sealed class ProjectileWeapon : BaseWeapon
     public bool ApplySpreadToFirstProjectile;
 
     public float PhysicalRecoil;
+
+    [Header("Damage Settings")]
+    /// <summary>
+    /// Base damage dealt by projectile
+    /// </summary>
+    public float Damage = 10f;
+
+    /// <summary>
+    /// Optional: Damage falloff over distance
+    /// </summary>
+    public AnimationCurve DamageFalloff = AnimationCurve.Linear(0, 1, 100, 0.5f);
+
+    /// <summary>
+    /// Maximum distance for damage calculation
+    /// </summary>
+    public float MaxDamageRange = 100f;
 }
