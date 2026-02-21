@@ -1505,11 +1505,6 @@ Transform:
   - {fileID: 345870099}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -14.478, y: 195.504, z: -3.967}
---- !u!4 &678967147 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1875792780243774822, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-  m_PrefabInstance: {fileID: 4244893420745889274}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &708081079
 GameObject:
   m_ObjectHideFlags: 0
@@ -4245,13 +4240,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 293998707422680905, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
+      propertyPath: _wallLayer.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 293998707422680905, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
+      propertyPath: _groundLayer.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 396799329942430194, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
       propertyPath: _targetMask.m_Bits
-      value: 1024
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 396799329942430194, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
       propertyPath: _obstacleMask.m_Bits
-      value: 384
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1702294396732119860, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
       propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.size
@@ -4314,9 +4317,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 6515cf5c6c7adbb4d87f4b022ae9c0e0, type: 3}
     - target: {fileID: 5169669708889196877, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
+      propertyPath: _landSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 8a8ee9bfbc3da5b48ab8419b5ca803c9, type: 3}
+    - target: {fileID: 5169669708889196877, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
+      propertyPath: _cameraSpeed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5169669708889196877, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
+      propertyPath: _acceleration
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5169669708889196877, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
+      propertyPath: _footstepVolume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5169669708889196877, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
       propertyPath: _footstepAudioSource
       value: 
-      objectReference: {fileID: 1799709860}
+      objectReference: {fileID: 0}
     - target: {fileID: 5169669708889196877, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
       propertyPath: _footstepSounds.Array.size
       value: 4
@@ -4343,10 +4362,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 1875792780243774822, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1799709859}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
 --- !u!1001 &8895058597665908460

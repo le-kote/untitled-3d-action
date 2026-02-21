@@ -1,2 +1,14 @@
 fileFormatVersion: 2
 guid: 2c9b7d618fe699e429d7b3a1ba51d81b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - Projectile: {instanceID: 0}
+  - FireSound: {fileID: 8300000, guid: 9ca82c48e4eb6e242814bf9a20a5ed9d, type: 3}
+  - AudioMixerGroup: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
