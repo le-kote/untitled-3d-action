@@ -18,7 +18,7 @@ public class Projectile : MonoBehaviour
 
     public void Launch(Collider userCollider, Vector3 force)
     {
-        Physics.IgnoreCollision(userCollider, _collider, true);
+        Physics.IgnoreCollision(userCollider, _collider);
 
         Velocity = force;
         _rb.linearVelocity = force;
