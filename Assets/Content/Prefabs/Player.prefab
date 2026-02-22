@@ -272,19 +272,7 @@ MonoBehaviour:
     m_ActionId: acc4d6b3-85dc-4f50-8deb-7a5d52f3e8e5
     m_ActionName: 'Gameplay/Jump[/Keyboard/space]'
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5169669708889196877}
-        m_TargetAssemblyTypeName: GenericMovement, Assembly-CSharp
-        m_MethodName: OnCameraMove
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 7b1debe8-983c-467c-9aaa-97cb4ba49d27
     m_ActionName: 'Gameplay/CameraMove[/Mouse/delta]'
   - m_PersistentCalls:
@@ -552,7 +540,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
