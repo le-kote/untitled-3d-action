@@ -3442,6 +3442,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dff5cdd7384c8394d83c7fa8ca3a35a9, type: 3}
+--- !u!114 &1792509069 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1702294396732119860, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
+  m_PrefabInstance: {fileID: 4244893420745889274}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
 --- !u!1 &1858763099
 GameObject:
   m_ObjectHideFlags: 0
@@ -4240,6 +4251,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1702294396732119860, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1875792780243774822, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.9378304
@@ -4280,6 +4295,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3397260317005505943, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5169669708889196877, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
+      propertyPath: _playerInput
+      value: 
+      objectReference: {fileID: 1792509069}
     - target: {fileID: 7573248951399059200, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
       propertyPath: m_Name
       value: Player

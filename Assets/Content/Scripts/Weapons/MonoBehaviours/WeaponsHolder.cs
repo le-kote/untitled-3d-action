@@ -136,7 +136,7 @@ public class WeaponsHolder : MonoBehaviour
 
             // Launch projectile
             var proj = instance.GetOrAddComponent<Projectile>();
-            proj.Launch(_collider, resuldDir.normalized * weapon.ProjectileSpeed);
+            proj.Launch(gameObject, resuldDir.normalized * weapon.ProjectileSpeed);
             Destroy(instance, weapon.ProjectileLifetime);
         }
 
