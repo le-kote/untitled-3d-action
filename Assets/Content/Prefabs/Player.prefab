@@ -179,19 +179,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GenericMovement
   _footstepSounds:
-  - {fileID: 8300000, guid: 42c342d3b5bbe854897f53003f3502fd, type: 3}
   - {fileID: 8300000, guid: 031af1864d3612441b3916095fd13bdf, type: 3}
-  - {fileID: 8300000, guid: ba3538a9c0d9a3e4a8c15d979c97462c, type: 3}
+  - {fileID: 8300000, guid: 42c342d3b5bbe854897f53003f3502fd, type: 3}
   - {fileID: 8300000, guid: e2f7fd1ed8eb60c4bae31f42c4477eb7, type: 3}
+  - {fileID: 8300000, guid: ba3538a9c0d9a3e4a8c15d979c97462c, type: 3}
   _jumpSound: {fileID: 8300000, guid: 6515cf5c6c7adbb4d87f4b022ae9c0e0, type: 3}
-  _landSound: {fileID: 0}
-  _footstepVolume: 0.5
+  _landSound: {fileID: 8300000, guid: 8a8ee9bfbc3da5b48ab8419b5ca803c9, type: 3}
+  _footstepVolume: 1
   _jumpVolume: 0.7
   _landVolume: 0.6
   _walkStepInterval: 0.5
   _sprintStepInterval: 0.3
   _crouchStepInterval: 0.8
-  _cameraSpeed: 50
+  _cameraSpeed: 30
   _cameraYLimits: 85
   _walkFov: 65
   _sprintFov: 70
@@ -208,7 +208,7 @@ MonoBehaviour:
   _crouchHeight: 0.25
   _height: 2
   _heightChangeSpeed: 40
-  _acceleration: 20
+  _acceleration: 25
   _airAcceleration: 1.2
   _deceleration: 12
   _airDeceleration: 0
@@ -272,7 +272,19 @@ MonoBehaviour:
     m_ActionId: acc4d6b3-85dc-4f50-8deb-7a5d52f3e8e5
     m_ActionName: 'Gameplay/Jump[/Keyboard/space]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5169669708889196877}
+        m_TargetAssemblyTypeName: GenericMovement, Assembly-CSharp
+        m_MethodName: OnCameraMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 7b1debe8-983c-467c-9aaa-97cb4ba49d27
     m_ActionName: 'Gameplay/CameraMove[/Mouse/delta]'
   - m_PersistentCalls:
@@ -445,7 +457,24 @@ MonoBehaviour:
   - {x: 1, y: 0, z: -0.45}
   _camera: {fileID: 6313100782683084698}
   _onWallAngle: 15
-  _cameraRotationSpeed: 45
+  _cameraRotationSpeed: 50
+  _audioSource: {fileID: 0}
+  _wallrunStartSounds: []
+  _wallrunStartVolume: 0.6
+  _wallrunLoopSounds: []
+  _wallrunLoopVolume: 0.4
+  _wallrunEndSounds: []
+  _wallrunEndVolume: 0.5
+  _wallJumpSounds: []
+  _wallJumpVolume: 0.8
+  _wallrunFootstepSounds: []
+  _footstepVolume: 0.3
+  _footstepInterval: 0.3
+  _enableSpeedPitchVariation: 1
+  _minSpeedPitch: 0.8
+  _maxSpeedPitch: 1.3
+  _minSpeedForPitch: 5
+  _maxSpeedForPitch: 20
 --- !u!114 &2690189937552843730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,6 +524,12 @@ MonoBehaviour:
   _obstacleMask:
     serializedVersion: 2
     m_Bits: 192
+  _audioSource: {fileID: 0}
+  _teleportSounds: []
+  _teleportVolume: 0.8
+  _randomizePitch: 1
+  _minPitch: 0.8
+  _maxPitch: 1.2
 --- !u!114 &3394671026788392005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,6 +560,9 @@ MonoBehaviour:
   _weapon2: {fileID: 0}
   _firstWeapon: 1
   _collider: {fileID: 3397260317005505943}
+  _audioSource: {fileID: 0}
+  _switchWeaponSound: {fileID: 0}
+  _switchWeaponVolume: 0.5
 --- !u!136 &3397260317005505943
 CapsuleCollider:
   m_ObjectHideFlags: 0
