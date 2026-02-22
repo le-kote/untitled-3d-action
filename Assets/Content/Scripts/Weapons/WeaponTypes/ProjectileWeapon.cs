@@ -51,4 +51,26 @@ public sealed class ProjectileWeapon : BaseWeapon
     /// Maximum distance for damage calculation
     /// </summary>
     public float MaxDamageRange = 100f;
+
+    [Header("Audio Settings")]
+    /// <summary>
+    /// Sound played when weapon fires
+    /// </summary>
+    public AudioClip FireSound;
+
+    /// <summary>
+    /// Volume of the fire sound (0-1)
+    /// </summary>
+    [Range(0f, 1f)]
+    public float FireSoundVolume = 1f;
+
+    /// <summary>
+    /// Should the fire sound be played at the weapon position (3D) or globally (2D)
+    /// </summary>
+    public bool IsFireSound3D = true;
+
+    /// <summary>
+    /// Audio mixer group for weapon sounds (optional)
+    /// </summary>
+    public UnityEngine.Audio.AudioMixerGroup AudioMixerGroup;
 }

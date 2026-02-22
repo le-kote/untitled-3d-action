@@ -9,6 +9,7 @@ using UnityEngine;
 /// This component allows user to wallrun
 /// </summary>
 [RequireComponent(typeof(GenericMovement), typeof(CharacterController))]
+[RequireComponent(typeof(AudioSource))]
 public class WallRunner : MonoBehaviour, IEventSubscribedComponent
 {
     [Header("Wallrunning")]
@@ -26,7 +27,7 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
     private float _wallrunDeceleration = 2;
 
     [SerializeField]
-    private float _sideCameraRotationDuration = 0.25f;
+    private float _sideCameraRotationDuration = 0.15f; // Уменьшил с 0.25f до 0.15f
 
     [Header("Jumping")]
 
@@ -39,7 +40,7 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
     private float _maxWallRunTime = 3;
 
     [SerializeField]
-    private float _lastNormalResetDuration = 1.2f;
+    private float _lastNormalResetDuration = 0.8f; // Уменьшил с 1.2f до 0.8f
 
     [SerializeField]
     private float _maxWallRunSlope = 60f;
@@ -82,6 +83,38 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
     [SerializeField]
     private float _cameraRotationSpeed = 45f;
 
+    [Header("Audio Settings")]
+    [SerializeField]
+    private AudioSource _audioSource;
+    
+    [Header("Wallrun Start Sounds")]
+    [SerializeField] private AudioClip[] _wallrunStartSounds;
+    [SerializeField] [Range(0f, 1f)] private float _wallrunStartVolume = 0.6f;
+    
+    [Header("Wallrun Loop Sounds")]
+    [SerializeField] private AudioClip[] _wallrunLoopSounds;
+    [SerializeField] [Range(0f, 1f)] private float _wallrunLoopVolume = 0.4f;
+    
+    [Header("Wallrun End Sounds")]
+    [SerializeField] private AudioClip[] _wallrunEndSounds;
+    [SerializeField] [Range(0f, 1f)] private float _wallrunEndVolume = 0.5f;
+    
+    [Header("Wall Jump Sounds")]
+    [SerializeField] private AudioClip[] _wallJumpSounds;
+    [SerializeField] [Range(0f, 1f)] private float _wallJumpVolume = 0.8f;
+    
+    [Header("Footstep Sounds")]
+    [SerializeField] private AudioClip[] _wallrunFootstepSounds;
+    [SerializeField] [Range(0f, 1f)] private float _footstepVolume = 0.3f;
+    [SerializeField] private float _footstepInterval = 0.3f;
+    
+    [Header("Speed Based Sounds")]
+    [SerializeField] private bool _enableSpeedPitchVariation = true;
+    [SerializeField] private float _minSpeedPitch = 0.8f;
+    [SerializeField] private float _maxSpeedPitch = 1.3f;
+    [SerializeField] private float _minSpeedForPitch = 5f;
+    [SerializeField] private float _maxSpeedForPitch = 20f;
+
     private RaycastHit _leftWallRay;
     private RaycastHit _rightWallRay;
     private bool _wallLeft;
@@ -96,12 +129,23 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
     private Vector3? _lastNormal = null;
     private bool _jumping;
     private float _jumpTimer = 0f;
+    
+    private float _footstepTimer = 0f;
+    private int _lastLoopSoundIndex = -1;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _movement = GetComponent<GenericMovement>();
         _cc = GetComponent<CharacterController>();
+        
+        if (_audioSource == null)
+            _audioSource = GetComponent<AudioSource>();
+            
+        if (_audioSource == null)
+            _audioSource = gameObject.AddComponent<AudioSource>();
+            
+        _audioSource.loop = true;
     }
 
     // Update is called once per frame
@@ -111,6 +155,8 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
         CheckNormalReset();
         SwitchStates();
         HandleMovement();
+        UpdateLoopSound();
+        UpdateFootsteps();
     }
 
     void FixedUpdate()
@@ -167,6 +213,16 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
         _movement.UseGravity = false;
 
         LerpCameraRotation();
+        
+        // Play random start sound
+        PlayRandomSound(_wallrunStartSounds, _wallrunStartVolume);
+        
+        // Start loop sound
+        if (_wallrunLoopSounds != null && _wallrunLoopSounds.Length > 0 && _audioSource != null)
+        {
+            PlayRandomLoopSound();
+            _audioSource.Play();
+        }
 
         var ev = new RefreshAirJumpsEvent();
         this.RaiseEvent(ev);
@@ -179,6 +235,81 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
         _movement.UseGravity = true;
 
         LerpCameraRotation();
+        
+        // Stop loop sound
+        if (_audioSource != null && _audioSource.isPlaying)
+        {
+            _audioSource.Stop();
+        }
+        
+        // Play random end sound
+        PlayRandomSound(_wallrunEndSounds, _wallrunEndVolume);
+    }
+
+    private void PlayRandomSound(AudioClip[] clips, float volume)
+    {
+        if (clips == null || clips.Length == 0 || _audioSource == null)
+            return;
+            
+        int randomIndex = Random.Range(0, clips.Length);
+        _audioSource.PlayOneShot(clips[randomIndex], volume);
+    }
+    
+    private void PlayRandomLoopSound()
+    {
+        if (_wallrunLoopSounds == null || _wallrunLoopSounds.Length == 0 || _audioSource == null)
+            return;
+            
+        // Избегаем повторения одного и того же звука два раза подряд
+        int newIndex;
+        if (_wallrunLoopSounds.Length > 1)
+        {
+            do
+            {
+                newIndex = Random.Range(0, _wallrunLoopSounds.Length);
+            } while (newIndex == _lastLoopSoundIndex);
+        }
+        else
+        {
+            newIndex = 0;
+        }
+        
+        _lastLoopSoundIndex = newIndex;
+        _audioSource.clip = _wallrunLoopSounds[newIndex];
+        _audioSource.volume = _wallrunLoopVolume;
+    }
+
+    private void UpdateLoopSound()
+    {
+        if (!_wallRunning || _audioSource == null || !_audioSource.isPlaying || _wallrunLoopSounds == null || _wallrunLoopSounds.Length == 0)
+            return;
+            
+        // Adjust loop sound pitch based on speed
+        if (_enableSpeedPitchVariation)
+        {
+            float speed = _movement.Velocity.magnitude;
+            float t = Mathf.InverseLerp(_minSpeedForPitch, _maxSpeedForPitch, speed);
+            _audioSource.pitch = Mathf.Lerp(_minSpeedPitch, _maxSpeedPitch, t);
+        }
+    }
+    
+    private void UpdateFootsteps()
+    {
+        if (!_wallRunning || _movement.Velocity.magnitude < 0.5f)
+        {
+            _footstepTimer = 0f;
+            return;
+        }
+        
+        _footstepTimer += Time.deltaTime;
+        
+        if (_footstepTimer >= _footstepInterval && _wallrunFootstepSounds != null && _wallrunFootstepSounds.Length > 0)
+        {
+            PlayRandomSound(_wallrunFootstepSounds, _footstepVolume);
+            
+            // Вариация интервала для естественности
+            _footstepTimer = -Random.Range(0f, 0.05f);
+        }
     }
 
     private void HandleMovement()
@@ -212,6 +343,9 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
         _movement.ApplyForce(wallNormal * _jumpSpeed);
         _movement.ApplyForce(transform.forward * (_jumpSpeed / 2));
 
+        // Play random jump sound
+        PlayRandomSound(_wallJumpSounds, _wallJumpVolume);
+
         var ev = new RefreshAirJumpsEvent();
         this.RaiseEvent(ev);
 
@@ -221,7 +355,6 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
     private void HandleWallRunning()
     {
         Vector3 wallNormal = _wallRight ? _rightWallRay.normal : _leftWallRay.normal;
-        Debug.Log($"Wall normal: {wallNormal}");
 
         // Choose a direction along the wall surface and align it with player input
         var input = _movement.Input;
