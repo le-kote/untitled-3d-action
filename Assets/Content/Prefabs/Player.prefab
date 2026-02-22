@@ -178,6 +178,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d18e0cf124f7d4487f2e9ea5f0f3ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GenericMovement
+  _footstepSounds:
+  - {fileID: 8300000, guid: 42c342d3b5bbe854897f53003f3502fd, type: 3}
+  - {fileID: 8300000, guid: 031af1864d3612441b3916095fd13bdf, type: 3}
+  - {fileID: 8300000, guid: ba3538a9c0d9a3e4a8c15d979c97462c, type: 3}
+  - {fileID: 8300000, guid: e2f7fd1ed8eb60c4bae31f42c4477eb7, type: 3}
+  _jumpSound: {fileID: 8300000, guid: 6515cf5c6c7adbb4d87f4b022ae9c0e0, type: 3}
+  _landSound: {fileID: 0}
+  _footstepVolume: 0.5
+  _jumpVolume: 0.7
+  _landVolume: 0.6
+  _walkStepInterval: 0.5
+  _sprintStepInterval: 0.3
+  _crouchStepInterval: 0.8
+  _cameraSpeed: 50
+  _cameraYLimits: 85
+  _walkFov: 65
+  _sprintFov: 70
+  _camera: {fileID: 6313100782683084698}
+  _cameraHolder: {fileID: 1770345286581125367}
+  MovementEnabled: 1
   _moveSpeed: 7
   _sprintSpeed: 10
   _crouchSpeed: 4
@@ -194,29 +214,6 @@ MonoBehaviour:
   _airDeceleration: 0
   _sprintAcceleration: 25
   _sprintDeceleration: 15
-  _cameraSpeed: 50
-  _cameraYLimits: 85
-  _walkFov: 65
-  _sprintFov: 70
-  _camera: {fileID: 6313100782683084698}
-  _footstepAudioSource: {fileID: 0}
-  _jumpAudioSource: {fileID: 8827069645183542957}
-  _landAudioSource: {fileID: 0}
-  _footstepSounds:
-  - {fileID: 8300000, guid: 42c342d3b5bbe854897f53003f3502fd, type: 3}
-  - {fileID: 8300000, guid: 031af1864d3612441b3916095fd13bdf, type: 3}
-  - {fileID: 8300000, guid: ba3538a9c0d9a3e4a8c15d979c97462c, type: 3}
-  - {fileID: 8300000, guid: e2f7fd1ed8eb60c4bae31f42c4477eb7, type: 3}
-  _jumpSound: {fileID: 8300000, guid: 6515cf5c6c7adbb4d87f4b022ae9c0e0, type: 3}
-  _landSound: {fileID: 0}
-  _footstepVolume: 0.5
-  _jumpVolume: 0.7
-  _landVolume: 0.6
-  _walkStepInterval: 0.5
-  _sprintStepInterval: 0.3
-  _crouchStepInterval: 0.8
-  CameraHolder: {fileID: 1770345286581125367}
-  MovementEnabled: 1
 --- !u!114 &1702294396732119860
 MonoBehaviour:
   m_ObjectHideFlags: 0
