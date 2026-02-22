@@ -11,15 +11,16 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     private Collider _collider;
 
+    public GameObject Player;
+
     void FixedUpdate()
     {
         _rb.linearVelocity = new Vector3(Velocity.x, _rb.linearVelocity.y, Velocity.z);
     }
 
-    public void Launch(Collider userCollider, Vector3 force)
+    public void Launch(GameObject player, Vector3 force)
     {
-        Physics.IgnoreCollision(userCollider, _collider);
-
+        Player = player;
         Velocity = force;
         _rb.linearVelocity = force;
     }

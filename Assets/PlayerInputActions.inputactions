@@ -189,7 +189,7 @@
                 {
                     "name": "",
                     "id": "fc950deb-552d-40c0-8bb0-cf7c01587980",
-                    "path": "<Mouse>/delta",
+                    "path": "<Pointer>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

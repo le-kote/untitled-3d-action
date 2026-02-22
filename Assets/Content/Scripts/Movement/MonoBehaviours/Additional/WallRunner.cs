@@ -416,7 +416,7 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
 
     private bool CanWallRun()
     {
-        var velocity = new Vector2(_movement.Velocity.z, _movement.Velocity.x);
+        var velocity = _movement.Velocity.Horizontal();
 
         if (!AboveGround())
             return false;
