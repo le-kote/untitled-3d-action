@@ -50,6 +50,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   MaxDamageRange: 100
   FireSound: {fileID: 8300000, guid: 9ca82c48e4eb6e242814bf9a20a5ed9d, type: 3}
-  FireSoundVolume: 1
+  FireSoundVolume: 0.219
   IsFireSound3D: 1
   AudioMixerGroup: {fileID: 0}
