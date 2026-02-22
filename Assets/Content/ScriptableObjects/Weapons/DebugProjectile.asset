@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DebugProjectile
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileWeapon
   DelayBeforeAttack: 0
-  AttackRate: 0.4
+  AttackRate: 0.3
   Automatic: 0
   StopAttacksOnButtonUp: 0
   Projectile: {fileID: 6521787214382137834, guid: e0f39e1edb4d5f54fa23fcb4ece18761, type: 3}
@@ -49,3 +49,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   MaxDamageRange: 100
+  FireSound: {fileID: 8300000, guid: 9ca82c48e4eb6e242814bf9a20a5ed9d, type: 3}
+  FireSoundVolume: 1
+  IsFireSound3D: 1
+  AudioMixerGroup: {fileID: 0}
