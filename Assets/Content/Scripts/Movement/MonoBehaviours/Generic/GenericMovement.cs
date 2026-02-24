@@ -117,6 +117,13 @@ public partial class GenericMovement : MonoBehaviour
     public void OnJump(InputAction.CallbackContext context)
     {
         if (!context.performed)
+        {
+            if (Velocity.y > _jumpReducionThreshold)
+                Velocity = new Vector3(Velocity.x, Velocity.y * _jumpReducionOnRelease, Velocity.z);
+
+            return;
+        }
+
             return;
 
         var ev = new CanJumpEvent();
