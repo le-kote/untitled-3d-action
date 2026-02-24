@@ -124,14 +124,12 @@ public partial class GenericMovement : MonoBehaviour
             return;
         }
 
-            return;
+        var canJump = IsGrounded || _coyoteTimer <= _coyoteTime;
 
-        var ev = new CanJumpEvent();
+        var ev = new CanJumpEvent(canJump);
         this.RaiseEvent(ev);
 
-        var canJump = ev.Handled ? ev.CanJump : IsGrounded;
-
-        if (canJump)
+        if (ev.Handled ? ev.CanJump : canJump)
         {
             this.RaiseEvent(new JumpEvent());
             _jumping = true;

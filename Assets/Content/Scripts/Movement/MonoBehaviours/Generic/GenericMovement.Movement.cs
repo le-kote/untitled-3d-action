@@ -26,6 +26,15 @@ public partial class GenericMovement
     [SerializeField]
     private float _slopeFriction = 0.3f;
 
+    [SerializeField]
+    private float _jumpReducionOnRelease = 0.5f;
+
+    [SerializeField]
+    private float _jumpReducionThreshold = 5f;
+
+    [SerializeField]
+    private float _coyoteTime = .1f;
+
     [Header("Crouching")]
 
     [SerializeField]
@@ -64,6 +73,7 @@ public partial class GenericMovement
     private float _sprintDeceleration = 15f;
 
     private bool _jumping = false;
+    private float _coyoteTimer = 0f;
     private Vector3 _groundNormal = Vector3.up;
 
     private void UpdateGrounded()
@@ -73,6 +83,7 @@ public partial class GenericMovement
         if (!IsGrounded && grounded)
         {
             PlayLandSound();
+            _coyoteTimer = 0f;
         }
 
         IsGrounded = grounded;
@@ -82,6 +93,9 @@ public partial class GenericMovement
     {
         if (Input.y <= 0 && CurrentMoveState == MoveState.Running && IsGrounded)
             SetMoveState(MoveState.Walking);
+
+        if (!IsGrounded)
+            _coyoteTimer += Time.deltaTime;
 
         GetVelocity();
         var targetVelocity = new Vector3(Velocity.x, Velocity.y, Velocity.z);
