@@ -261,7 +261,7 @@ Transform:
   m_GameObject: {fileID: 85473544}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.048324406, w: 0.9988317}
-  m_LocalPosition: {x: -6.08, y: 5.39, z: 6.29}
+  m_LocalPosition: {x: -6.08, y: 7.58734, z: 6.29}
   m_LocalScale: {x: 8.3061, y: 3.8049, z: 0.24088}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1899,7 +1899,7 @@ Transform:
   m_GameObject: {fileID: 778143012}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.1287381, w: 0.99167866}
-  m_LocalPosition: {x: -14.47, y: 7.61, z: 1}
+  m_LocalPosition: {x: -14.47, y: 10, z: 1}
   m_LocalScale: {x: 8.3061, y: 3.8049, z: 0.24088}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2201,7 +2201,7 @@ Transform:
   m_GameObject: {fileID: 970044966}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -29.77, y: 6.52, z: 3.25}
+  m_LocalPosition: {x: -29.77, y: 6.25, z: 3.25}
   m_LocalScale: {x: 12.0145, y: 0.28049, z: 18.0895}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3039,7 +3039,7 @@ Transform:
   m_GameObject: {fileID: 1606024088}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 4.6566123e-10, z: -0.016772447, w: 0.99985933}
-  m_LocalPosition: {x: 0, y: 3.25, z: 0}
+  m_LocalPosition: {x: 0, y: 4.390435, z: 0}
   m_LocalScale: {x: 8.3061, y: 3.8049, z: 0.24088}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4262,6 +4262,10 @@ PrefabInstance:
       value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 293998707422680905, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
+      propertyPath: _verticalVelocityDeceleration
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 293998707422680905, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
       propertyPath: _wallrunFootstepSounds.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -4351,7 +4355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5169669708889196877, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
       propertyPath: _jumpHeight
-      value: 6.5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5169669708889196877, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
       propertyPath: _cameraSpeed
