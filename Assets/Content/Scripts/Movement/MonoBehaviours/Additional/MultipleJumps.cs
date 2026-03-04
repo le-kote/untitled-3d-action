@@ -36,7 +36,7 @@ public class MultipleJumps : MonoBehaviour, IEventSubscribedComponent
 
     private void OnCanJump(CanJumpEvent ev)
     {
-        if (_movement.IsGrounded)
+        if (ev.Grounded)
             return;
 
         if (JumpsSpent >= MaxAirJumps)

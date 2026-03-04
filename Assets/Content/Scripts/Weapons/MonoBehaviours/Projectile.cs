@@ -23,5 +23,7 @@ public class Projectile : MonoBehaviour
         Player = player;
         Velocity = force;
         _rb.linearVelocity = force;
+
+        Debug.Log(gameObject.layer);
     }
 }

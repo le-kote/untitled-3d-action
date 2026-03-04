@@ -159,6 +159,7 @@ MonoBehaviour:
   Velocity: {x: 0, y: 0, z: 0}
   _rb: {fileID: 2367287767671229637}
   _collider: {fileID: 5261851621038664534}
+  Player: {fileID: 0}
 --- !u!114 &-7043802342017255934
 MonoBehaviour:
   m_ObjectHideFlags: 0

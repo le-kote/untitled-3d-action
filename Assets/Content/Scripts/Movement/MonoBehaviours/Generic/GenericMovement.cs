@@ -117,14 +117,19 @@ public partial class GenericMovement : MonoBehaviour
     public void OnJump(InputAction.CallbackContext context)
     {
         if (!context.performed)
-            return;
+        {
+            if (Velocity.y > _jumpReducionThreshold)
+                Velocity = new Vector3(Velocity.x, Velocity.y * _jumpReducionOnRelease, Velocity.z);
 
-        var ev = new CanJumpEvent();
+            return;
+        }
+
+        var canJump = IsGrounded || _coyoteTimer <= _coyoteTime;
+
+        var ev = new CanJumpEvent(canJump);
         this.RaiseEvent(ev);
 
-        var canJump = ev.Handled ? ev.CanJump : IsGrounded;
-
-        if (canJump)
+        if (ev.Handled ? ev.CanJump : canJump)
         {
             this.RaiseEvent(new JumpEvent());
             _jumping = true;
