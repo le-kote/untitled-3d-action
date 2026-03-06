@@ -27,10 +27,10 @@ public class WeaponsHolder : MonoBehaviour
     [Header("Audio Settings")]
     [SerializeField]
     private AudioSource _audioSource;
-    
+
     [SerializeField]
     private AudioClip _switchWeaponSound;
-    
+
     [SerializeField]
     [Range(0f, 1f)]
     private float _switchWeaponVolume = 0.5f;
@@ -47,10 +47,10 @@ public class WeaponsHolder : MonoBehaviour
     void Start()
     {
         _movement = GetComponent<GenericMovement>();
-        
+
         if (_audioSource == null)
             _audioSource = GetComponent<AudioSource>();
-            
+
         if (_audioSource == null)
             _audioSource = gameObject.AddComponent<AudioSource>();
     }
@@ -98,19 +98,19 @@ public class WeaponsHolder : MonoBehaviour
                 AttackProjectile(projectile);
                 break;
         }
-        
+
         PlayWeaponSound(weapon);
     }
 
     private void PlayWeaponSound(BaseWeapon weapon)
     {
         if (_audioSource == null) return;
-        
+
         AudioClip? soundToPlay = null;
         float volume = 1f;
         bool is3D = true;
         UnityEngine.Audio.AudioMixerGroup? mixerGroup = null;
-        
+
         switch (weapon)
         {
             case ProjectileWeapon projectile:
@@ -120,15 +120,15 @@ public class WeaponsHolder : MonoBehaviour
                 mixerGroup = projectile.AudioMixerGroup;
                 break;
         }
-        
+
         if (soundToPlay == null) return;
-        
+
         _audioSource.spatialBlend = is3D ? 1f : 0f;
         _audioSource.volume = volume;
-        
+
         if (mixerGroup != null)
             _audioSource.outputAudioMixerGroup = mixerGroup;
-            
+
         _audioSource.PlayOneShot(soundToPlay);
     }
 
@@ -169,14 +169,13 @@ public class WeaponsHolder : MonoBehaviour
             // Modifies spread for every projectile
             if (i > 0 || weapon.ApplySpreadToFirstProjectile)
             {
-                Quaternion rotation = camTransform.rotation;
                 var x = Random.Range(-weapon.Spread.x, weapon.Spread.x);
                 var y = Random.Range(-weapon.Spread.y, weapon.Spread.y);
-                rotation.eulerAngles = new(x, y, rotation.eulerAngles.z);
 
-                resuldDir = rotation * direction;
-
-                // Adding a slight offset for projectile spawn position
+                // Apply spread as rotations around the camera's local axes
+                // X rotation (pitch) around camera's right axis, Y rotation (yaw) around camera's up axis
+                Quaternion spreadRotation = Quaternion.AngleAxis(x, camTransform.right) * Quaternion.AngleAxis(y, camTransform.up);
+                resuldDir = spreadRotation * direction;
                 resultPos += camTransform.right * x / 100 + camTransform.up * y / 100;
             }
 
@@ -206,16 +205,16 @@ public class WeaponsHolder : MonoBehaviour
             _firstWeapon = true;
 
         weapon = _firstWeapon ? _weapon1 : _weapon2;
-        
+
         if (weapon != _currentWeapon)
         {
             _currentWeapon = weapon;
             PlaySwitchWeaponSound();
         }
-        
+
         return weapon != null;
     }
-    
+
     private void PlaySwitchWeaponSound()
     {
         if (_audioSource != null && _switchWeaponSound != null)
