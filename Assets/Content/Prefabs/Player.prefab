@@ -191,7 +191,7 @@ MonoBehaviour:
   _walkStepInterval: 0.5
   _sprintStepInterval: 0.3
   _crouchStepInterval: 0.8
-  _cameraSpeed: 30
+  _cameraSpeed: 45
   _cameraYLimits: 85
   _walkFov: 65
   _sprintFov: 70
@@ -199,17 +199,20 @@ MonoBehaviour:
   _cameraHolder: {fileID: 1770345286581125367}
   MovementEnabled: 1
   _moveSpeed: 7
-  _sprintSpeed: 10
+  _sprintSpeed: 12
   _crouchSpeed: 4
-  _jumpHeight: 2
-  _gravity: -9.8
+  _jumpHeight: 6
+  _gravity: -15
   UseGravity: 1
   _slopeFriction: 0.2
+  _jumpReducionOnRelease: 0.6
+  _jumpReducionThreshold: 5
+  _coyoteTime: 0.1
   _crouchHeight: 0.25
   _height: 2
   _heightChangeSpeed: 40
   _acceleration: 25
-  _airAcceleration: 1.2
+  _airAcceleration: 2.4
   _deceleration: 12
   _airDeceleration: 0
   _sprintAcceleration: 25
@@ -429,7 +432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a591b82bc241f8449abe5a6571044b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WallRunner
-  _verticalVelocityDeceleration: 4
+  _verticalVelocityDeceleration: 6
   _rotationLerpAmount: 3
   _wallrunAcceleration: 6
   _wallrunDeceleration: 2
@@ -458,18 +461,22 @@ MonoBehaviour:
   _camera: {fileID: 6313100782683084698}
   _onWallAngle: 15
   _cameraRotationSpeed: 50
-  _audioSource: {fileID: 0}
+  _audioSource: {fileID: 8827069645183542957}
   _wallrunStartSounds: []
   _wallrunStartVolume: 0.6
   _wallrunLoopSounds: []
   _wallrunLoopVolume: 0.4
   _wallrunEndSounds: []
-  _wallrunEndVolume: 0.5
+  _wallrunEndVolume: 0.7
   _wallJumpSounds: []
   _wallJumpVolume: 0.8
-  _wallrunFootstepSounds: []
-  _footstepVolume: 0.3
-  _footstepInterval: 0.3
+  _wallrunFootstepSounds:
+  - {fileID: 8300000, guid: e2f7fd1ed8eb60c4bae31f42c4477eb7, type: 3}
+  - {fileID: 8300000, guid: ba3538a9c0d9a3e4a8c15d979c97462c, type: 3}
+  - {fileID: 8300000, guid: 031af1864d3612441b3916095fd13bdf, type: 3}
+  - {fileID: 8300000, guid: 42c342d3b5bbe854897f53003f3502fd, type: 3}
+  _footstepVolume: 1
+  _footstepInterval: 0.2
   _enableSpeedPitchVariation: 1
   _minSpeedPitch: 0.8
   _maxSpeedPitch: 1.3
@@ -525,7 +532,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 192
   _audioSource: {fileID: 0}
-  _teleportSounds: []
+  _teleportSounds:
+  - {fileID: 8300000, guid: af38c173017024a4caba042c7d5282f1, type: 3}
   _teleportVolume: 0.8
   _randomizePitch: 1
   _minPitch: 0.8

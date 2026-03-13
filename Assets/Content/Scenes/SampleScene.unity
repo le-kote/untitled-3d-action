@@ -2337,11 +2337,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4347906442246354336, guid: dff5cdd7384c8394d83c7fa8ca3a35a9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 13
+      value: 14.41
       objectReference: {fileID: 0}
     - target: {fileID: 4347906442246354336, guid: dff5cdd7384c8394d83c7fa8ca3a35a9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 47
+      value: 53.14
       objectReference: {fileID: 0}
     - target: {fileID: 4347906442246354336, guid: dff5cdd7384c8394d83c7fa8ca3a35a9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2677,11 +2677,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!82 &1362565705 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 8827069645183542957, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-  m_PrefabInstance: {fileID: 4244893420745889274}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1386234534
 GameObject:
   m_ObjectHideFlags: 0
@@ -3408,7 +3403,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4347906442246354336, guid: dff5cdd7384c8394d83c7fa8ca3a35a9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8
+      value: 15.03
       objectReference: {fileID: 0}
     - target: {fileID: 4347906442246354336, guid: dff5cdd7384c8394d83c7fa8ca3a35a9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4245,70 +4240,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 293998707422680905, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: _audioSource
-      value: 
-      objectReference: {fileID: 1362565705}
-    - target: {fileID: 293998707422680905, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: _footstepVolume
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 293998707422680905, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: _footstepInterval
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 293998707422680905, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: _wallrunEndVolume
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 293998707422680905, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: _verticalVelocityDeceleration
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 293998707422680905, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: _wallrunFootstepSounds.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 293998707422680905, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: '_wallrunFootstepSounds.Array.data[0]'
-      value: 
-      objectReference: {fileID: 8300000, guid: e2f7fd1ed8eb60c4bae31f42c4477eb7, type: 3}
-    - target: {fileID: 293998707422680905, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: '_wallrunFootstepSounds.Array.data[1]'
-      value: 
-      objectReference: {fileID: 8300000, guid: ba3538a9c0d9a3e4a8c15d979c97462c, type: 3}
-    - target: {fileID: 293998707422680905, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: '_wallrunFootstepSounds.Array.data[2]'
-      value: 
-      objectReference: {fileID: 8300000, guid: 031af1864d3612441b3916095fd13bdf, type: 3}
-    - target: {fileID: 293998707422680905, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: '_wallrunFootstepSounds.Array.data[3]'
-      value: 
-      objectReference: {fileID: 8300000, guid: 42c342d3b5bbe854897f53003f3502fd, type: 3}
-    - target: {fileID: 396799329942430194, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: _teleportSounds.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 396799329942430194, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: '_teleportSounds.Array.data[0]'
-      value: 
-      objectReference: {fileID: 8300000, guid: af38c173017024a4caba042c7d5282f1, type: 3}
-    - target: {fileID: 1702294396732119860, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1702294396732119860, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1702294396732119860, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TryTeleport
-      objectReference: {fileID: 0}
-    - target: {fileID: 1702294396732119860, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TryTeleport
-      objectReference: {fileID: 0}
     - target: {fileID: 1875792780243774822, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.9378304
@@ -4348,30 +4279,6 @@ PrefabInstance:
     - target: {fileID: 1875792780243774822, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5169669708889196877, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: _gravity
-      value: -15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5169669708889196877, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: _jumpHeight
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5169669708889196877, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: _cameraSpeed
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 5169669708889196877, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: _sprintSpeed
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 5169669708889196877, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: _airAcceleration
-      value: 2.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5169669708889196877, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
-      propertyPath: _jumpReducionOnRelease
-      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 7573248951399059200, guid: a1d8ac67d0c3d1540855a74cd560f0fa, type: 3}
       propertyPath: m_Name
