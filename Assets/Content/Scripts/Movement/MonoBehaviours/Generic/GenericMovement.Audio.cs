@@ -39,28 +39,15 @@ public partial class GenericMovement
     [Tooltip("Time interval between footsteps in seconds when crouching")]
     private float _crouchStepInterval = 0.8f;
 
-    private AudioSource _footstepAudioSource;
-
-    private AudioSource _jumpAudioSource;
-
-    private AudioSource _landAudioSource;
+    private AudioSource _audioSource;
 
     private float _stepTimer = 0f;
 
     private void InitializeAudio()
     {
-        _footstepAudioSource = gameObject.AddComponent<AudioSource>();
-        _jumpAudioSource = gameObject.AddComponent<AudioSource>();
-        _landAudioSource = gameObject.AddComponent<AudioSource>();
+        _audioSource = gameObject.AddComponent<AudioSource>();
 
-        _footstepAudioSource.spatialBlend = 1f;
-        _footstepAudioSource.volume = _footstepVolume;
-
-        _jumpAudioSource.spatialBlend = 1f;
-        _jumpAudioSource.volume = _jumpVolume;
-
-        _landAudioSource.spatialBlend = 1f;
-        _landAudioSource.volume = _landVolume;
+        _audioSource.spatialBlend = 1f;
     }
 
     private void UpdateFootsteps()
@@ -104,25 +91,25 @@ public partial class GenericMovement
             return;
 
         AudioClip clip = _footstepSounds[Random.Range(0, _footstepSounds.Length)];
-        _footstepAudioSource.pitch = Random.Range(0.9f, 1.1f);
-        _footstepAudioSource.PlayOneShot(clip, _footstepVolume);
+        _audioSource.pitch = Random.Range(0.9f, 1.1f);
+        _audioSource.PlayOneShot(clip, _footstepVolume);
     }
 
     private void PlayJumpSound()
     {
-        if (_jumpSound == null || _jumpAudioSource == null)
+        if (_jumpSound == null || _audioSource == null)
             return;
 
-        _jumpAudioSource.pitch = Random.Range(0.9f, 1.1f);
-        _jumpAudioSource.PlayOneShot(_jumpSound, _jumpVolume);
+        _audioSource.pitch = Random.Range(0.9f, 1.1f);
+        _audioSource.PlayOneShot(_jumpSound, _jumpVolume);
     }
 
     private void PlayLandSound()
     {
-        if (_landSound == null || _landAudioSource == null)
+        if (_landSound == null || _audioSource == null)
             return;
 
-        _landAudioSource.pitch = Random.Range(0.8f, 1.2f);
-        _landAudioSource.PlayOneShot(_landSound, _landVolume);
+        _audioSource.pitch = Random.Range(0.8f, 1.2f);
+        _audioSource.PlayOneShot(_landSound, _landVolume);
     }
 }
