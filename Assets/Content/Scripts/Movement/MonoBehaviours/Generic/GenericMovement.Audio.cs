@@ -16,6 +16,12 @@ public partial class GenericMovement
     private AudioClip _landSound;
 
     [SerializeField]
+    private AudioClip _bigJumpSelectedSound;
+
+    [SerializeField]
+    private AudioClip _smallJumpSelectedSound;
+
+    [SerializeField]
     [Range(0.1f, 1f)]
     private float _footstepVolume = 0.5f;
 

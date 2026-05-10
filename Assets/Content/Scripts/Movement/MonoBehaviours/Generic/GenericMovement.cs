@@ -117,12 +117,7 @@ public partial class GenericMovement : MonoBehaviour
     public void OnJump(InputAction.CallbackContext context)
     {
         if (!context.performed)
-        {
-            if (Velocity.y > _jumpReducionThreshold)
-                Velocity = new Vector3(Velocity.x, Velocity.y * _jumpReducionOnRelease, Velocity.z);
-
             return;
-        }
 
         var canJump = IsGrounded || _coyoteTimer <= _coyoteTime;
 
@@ -158,6 +153,22 @@ public partial class GenericMovement : MonoBehaviour
         var newState = CurrentMoveState == MoveState.Crouching ? MoveState.Walking : MoveState.Crouching;
 
         SetMoveState(newState);
+    }
+
+    public void OnToggleJumpHeight(InputAction.CallbackContext context)
+    {
+        if (!context.performed)
+            return;
+
+        _bigJumpSelected = !_bigJumpSelected;
+
+        if (_audioSource == null || _bigJumpSelectedSound == null || _smallJumpSelectedSound == null)
+            return;
+
+        if (_bigJumpSelected)
+            _audioSource.PlayOneShot(_bigJumpSelectedSound, _jumpVolume);
+        else
+            _audioSource.PlayOneShot(_smallJumpSelectedSound, _jumpVolume);
     }
 
     public void ReleaseCursor(InputAction.CallbackContext context)

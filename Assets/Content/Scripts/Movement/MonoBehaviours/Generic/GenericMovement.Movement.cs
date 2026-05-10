@@ -15,7 +15,13 @@ public partial class GenericMovement
     private float _crouchSpeed = 4;
 
     [SerializeField]
-    private float _jumpHeight = 2;
+    private float _smallJumpHeight = 2;
+
+    [SerializeField]
+    private float _bigJumpHeight = 4;
+
+    [SerializeField]
+    private bool _bigJumpSelected = false;
 
     [SerializeField]
     private float _gravity = -9.8f;
@@ -72,6 +78,7 @@ public partial class GenericMovement
     [Tooltip("How fast player decelerates when sprinting on ground")]
     private float _sprintDeceleration = 15f;
 
+    private float _jumpHeight => _bigJumpSelected ? _bigJumpHeight : _smallJumpHeight;
     private bool _jumping = false;
     private float _coyoteTimer = 0f;
     private Vector3 _groundNormal = Vector3.up;
