@@ -10,26 +10,25 @@ public class HealthBar : MonoBehaviour
     [SerializeField]
     private float _visibleRange = 4f;
 
-    [SerializeField]
-    private Damageable _damageable;
-
     private Slider _slider;
-    
+
 
     void Start()
     {
         _slider = GetComponent<Slider>();
-
-        _damageable.OnDamageChanged += (arg1, arg2) => OnValueChanged(arg1, arg2);
     }
 
     void Update()
     {
-        
+
     }
 
-    public void OnValueChanged(float curValue, float maxValue)
+    public void OnDamageChanged(Component sender, object eventData)
     {
-        _slider.value = 1 - curValue / maxValue;
+        if (eventData is not DamageChangedData data)
+            return;
+
+        _slider.value = 1 - data.CurrentDamage / data.MaxHealth;
+
     }
 }

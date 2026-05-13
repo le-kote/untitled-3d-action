@@ -1,10 +1,11 @@
+using NUnit.Framework;
 using UnityEngine;
 
 /// <summary>
 /// This component allows user to slide on sprint-crouching
 /// </summary>
 [RequireComponent(typeof(GenericMovement))]
-public class Sliding : MonoBehaviour, IEventSubscribedComponent
+public class Sliding : MonoBehaviour
 {
     [SerializeField]
     private float _slideDuration = 3f;
@@ -62,61 +63,76 @@ public class Sliding : MonoBehaviour, IEventSubscribedComponent
         _direction = Vector3.zero;
     }
 
-    public void ReceiveMessage(GameEventArgs args)
+    public void OnAccelOverride(Component sender, object data)
     {
-        if (args is MoveStateChangedEvent ev)
-            OnMoveStateChanged(ev);
+        if (data is not AccelOverrideData ev)
+            return;
 
-        if (args is GetMoveDirectionOverrideEvent dirEv)
-            OnMoveDirOverride(dirEv);
+        if (sender.gameObject != gameObject)
+            return;
 
-        if (args is GetMoveAccelerationOverrideEvent accel)
-        {
-            if (!_isSliding || !_movement.IsGrounded)
-                return;
+        if (!_isSliding || !_movement.IsGrounded)
+            return;
 
-            accel.Acceleration = _slideAcceleration;
-            accel.Deceleration = _slideDeceleration;
-            accel.Handled = true;
-        }
-
-        if (args is GetMoveSpeedOverrideEvent speedEv)
-        {
-            if (!_isSliding)
-                return;
-
-            speedEv.Speed = _slideSpeed;
-            speedEv.Handled = true;
-        }
-
-        if (args is JumpEvent)
-        {
-            if (!_isSliding)
-                return;
-
-            _movement.ApplyForce(_movement.Velocity.normalized * _slideJumpSpeed);
-            _movement.SetMoveState(MoveState.Running);
-            StopSlide();
-        }
+        ev.Accel = _slideAcceleration;
+        ev.Decel = _slideDeceleration;
+        ev.Handled = true;
     }
 
-    private void OnMoveStateChanged(MoveStateChangedEvent ev)
+    public void OnMoveSpeedOverride(Component sender, object data)
     {
-        if (ev.PrevState == MoveState.Crouching)
+        if (data is not MoveSpeedOverrideData ev)
+            return;
+
+        if (sender.gameObject != gameObject)
+            return;
+
+        ev.Speed = _slideSpeed;
+        ev.Handled = true;
+    }
+
+    public void OnJump(Component sender, object data)
+    {
+        if (sender.gameObject != gameObject)
+            return;
+
+        if (!_isSliding)
+            return;
+
+        _movement.SetVelocity(_movement.Velocity.normalized * _slideSpeed);
+        _movement.SetMoveState(MoveState.Running);
+        StopSlide();
+    }
+
+    public void OnMoveStateChanged(Component sender, object data)
+    {
+        if (data is not MoveStateChangeData ev)
+            return;
+
+        if (sender.gameObject != gameObject)
+            return;
+
+        if (ev.Previous == MoveState.Crouching)
         {
             _isSliding = false;
             _direction = Vector3.zero;
             return;
         }
 
-        if (ev.PrevState != MoveState.Running || ev.State != MoveState.Crouching)
+        if (ev.Previous != MoveState.Running || ev.State != MoveState.Crouching)
             return;
 
         StartSlide();
     }
 
-    private void OnMoveDirOverride(GetMoveDirectionOverrideEvent ev)
+    public void OnMoveDirOverride(Component sender, object data)
     {
+        if (data is not MoveDirectionOverrideData ev)
+            return;
+
+        if (sender.gameObject != gameObject)
+            return;
+
         if (!_isSliding)
             return;
 

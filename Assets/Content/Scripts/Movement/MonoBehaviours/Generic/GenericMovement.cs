@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -28,6 +29,17 @@ public partial class GenericMovement : MonoBehaviour
     public MoveState CurrentMoveState { get; private set; } = MoveState.Walking;
 
     public bool IsGrounded { get; private set; } = false;
+
+    [Header("Events")]
+    [SerializeField] private GameEvent _moveSpeedOverrideEvent;
+    [SerializeField] private GameEvent _moveSpeedModifierEvent;
+    [SerializeField] private GameEvent _accelOverrideEvent;
+    [SerializeField] private GameEvent _moveDirectionOverrideEvent;
+
+    [SerializeField] private GameEvent _moveStateChangedEvent;
+
+    [SerializeField] private GameEvent _jumpAttemptEvent;
+    [SerializeField] private GameEvent _jumpEvent;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -68,8 +80,7 @@ public partial class GenericMovement : MonoBehaviour
         if (CurrentMoveState == moveState)
             return;
 
-        var ev = new MoveStateChangedEvent(CurrentMoveState, moveState);
-        this.RaiseEvent(ev);
+        _moveStateChangedEvent.Raise(this, new MoveStateChangeData(CurrentMoveState, moveState));
 
         CurrentMoveState = moveState;
         var fov = CurrentMoveState switch
@@ -121,12 +132,12 @@ public partial class GenericMovement : MonoBehaviour
 
         var canJump = IsGrounded || _coyoteTimer <= _coyoteTime;
 
-        var ev = new CanJumpEvent(canJump);
-        this.RaiseEvent(ev);
+        var jumpData = new CanJumpData { CanJump = canJump, Grounded = IsGrounded };
+        _jumpAttemptEvent.Raise(this, jumpData);
 
-        if (ev.Handled ? ev.CanJump : canJump)
+        if (jumpData.Handled ? jumpData.CanJump : canJump)
         {
-            this.RaiseEvent(new JumpEvent());
+            _jumpEvent.Raise(this, null);
             _jumping = true;
             PlayJumpSound();
         }
