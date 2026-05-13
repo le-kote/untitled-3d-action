@@ -333,7 +333,7 @@ public class WallRunner : MonoBehaviour
 
     private void CheckNormalReset()
     {
-        if (_movement.IsGrounded || _lastNormalResetTimer >= _lastNormalResetDuration)
+        if (_movement.IsGrounded.Value || _lastNormalResetTimer >= _lastNormalResetDuration)
         {
             _lastNormal = null;
             _lastNormalResetTimer = 0f;
@@ -416,7 +416,7 @@ public class WallRunner : MonoBehaviour
 
     private bool AboveGround()
     {
-        return !Physics.Raycast(transform.position + (Vector3.zero * (_cc.height / 2)), Vector3.down, _minJumpHeight, _groundLayer) && !_movement.IsGrounded;
+        return !Physics.Raycast(transform.position + (Vector3.zero * (_cc.height / 2)), Vector3.down, _minJumpHeight, _groundLayer) && !_movement.IsGrounded.Value;
     }
 
     private bool CanWallRun()
@@ -432,7 +432,7 @@ public class WallRunner : MonoBehaviour
         if (velocity.magnitude < 0.01f && !_wallRunning)
             return false;
 
-        if (_movement.CurrentMoveState != MoveState.Running && _requireSprint)
+        if (_movement.CurrentMoveState.Value != MoveState.Running && _requireSprint)
             return false;
 
         if (!IsWallSlopeValid(curRay.Value.normal))

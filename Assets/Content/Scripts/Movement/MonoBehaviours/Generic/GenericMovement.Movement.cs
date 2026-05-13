@@ -87,21 +87,15 @@ public partial class GenericMovement
     {
         var grounded = _cc.isGrounded && Vector3.Angle(_groundNormal, Vector3.up) <= _cc.slopeLimit;
 
-        if (!IsGrounded && grounded)
-        {
-            PlayLandSound();
-            _coyoteTimer = 0f;
-        }
-
-        IsGrounded = grounded;
+        IsGrounded.Value = grounded;
     }
 
     private void UpdateMovement()
     {
-        if (Input.y <= 0 && CurrentMoveState == MoveState.Running && IsGrounded)
+        if (Input.y <= 0 && CurrentMoveState.Value == MoveState.Running && IsGrounded.Value)
             SetMoveState(MoveState.Walking);
 
-        if (!IsGrounded)
+        if (!IsGrounded.Value)
             _coyoteTimer += Time.deltaTime;
 
         GetVelocity();
@@ -113,7 +107,7 @@ public partial class GenericMovement
     private void UpdateHeight()
     {
         var startingHeight = _cc.height;
-        var targetHeight = CurrentMoveState == MoveState.Crouching ? _crouchHeight : _height;
+        var targetHeight = CurrentMoveState.Value == MoveState.Crouching ? _crouchHeight : _height;
 
         if (startingHeight == targetHeight)
             return;
@@ -128,7 +122,7 @@ public partial class GenericMovement
         _cc.height = Mathf.Lerp(_cc.height, height, change);
         transform.localScale = new Vector3(transform.localScale.x, height / 2, transform.localScale.z);
 
-        if (diff > 0.001f && IsGrounded)
+        if (diff > 0.001f && IsGrounded.Value)
             _cc.Move(Vector3.up * -change);
     }
 
@@ -143,7 +137,8 @@ public partial class GenericMovement
 
     private float GetCurSpeed()
     {
-        var speed = CurrentMoveState switch
+        Debug.Log($"Current move state: {CurrentMoveState.Value}");
+        var speed = CurrentMoveState.Value switch
         {
             MoveState.Walking => _moveSpeed,
             MoveState.Running => _sprintSpeed,
@@ -158,6 +153,9 @@ public partial class GenericMovement
         _moveSpeedModifierEvent.Raise(this, modifiersEv);
 
         var resultSpeed = (ev.Handled ? ev.Speed : speed) * modifiersEv.Modifier;
+
+        Debug.Log($"Desired speed: {resultSpeed}");
+
         return resultSpeed;
     }
 
@@ -182,15 +180,15 @@ public partial class GenericMovement
         var currentAccel = 0f;
         var currentDecel = 0f;
 
-        if (!IsGrounded)
+        if (!IsGrounded.Value)
         {
             currentAccel = _airAcceleration;
             currentDecel = _airDeceleration;
         }
         else
         {
-            currentAccel = CurrentMoveState == MoveState.Running ? _sprintAcceleration : _acceleration;
-            currentDecel = CurrentMoveState == MoveState.Running ? _sprintDeceleration : _deceleration;
+            currentAccel = CurrentMoveState.Value == MoveState.Running ? _sprintAcceleration : _acceleration;
+            currentDecel = CurrentMoveState.Value == MoveState.Running ? _sprintDeceleration : _deceleration;
         }
 
         var ev = new AccelOverrideData();
@@ -212,7 +210,7 @@ public partial class GenericMovement
         Vector3 horizontalVelocity = Velocity.Horizontal();
 
         // Add slope sliding force to velocity
-        if (_cc.isGrounded && !IsGrounded)
+        if (_cc.isGrounded && !IsGrounded.Value)
         {
             horizontalVelocity += new Vector3(
                 (1f - _groundNormal.y) * _groundNormal.x * (1f - _slopeFriction),
@@ -253,7 +251,7 @@ public partial class GenericMovement
             _jumping = false;
             return Mathf.Sqrt(_jumpHeight * -2 * _gravity);
         }
-        else if (IsGrounded)
+        else if (IsGrounded.Value)
         {
             return -0.1f;
         }
@@ -261,5 +259,45 @@ public partial class GenericMovement
         {
             return Velocity.y + ((UseGravity ? _gravity : 0) * Time.deltaTime);
         }
+    }
+
+    private void OnGroundedState(bool prev, bool current)
+    {
+        if (prev == current)
+            return;
+
+        _groundedStateChangedEvent.Raise(this, current);
+
+        if (current)
+            OnLand();
+        else
+            OnJumpOrFall();
+    }
+
+    private void OnMoveStateSet(MoveState prev, MoveState current)
+    {
+        if (prev == current)
+            return;
+
+        _moveStateChangedEvent.Raise(this, new MoveStateChangeData(prev, current));
+        Debug.Log($"Current move state: {current}");
+
+        var fov = current switch
+        {
+            MoveState.Running => _sprintFov,
+            _ => _walkFov
+        };
+
+        _camera.DOFieldOfView(fov, 0.25f);
+    }
+
+    private void OnLand()
+    {
+        PlayLandSound();
+    }
+
+    private void OnJumpOrFall()
+    {
+        _coyoteTimer = 0f;
     }
 }

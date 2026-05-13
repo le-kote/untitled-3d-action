@@ -58,7 +58,7 @@ public partial class GenericMovement
 
     private void UpdateFootsteps()
     {
-        if (!IsGrounded || Input.magnitude < 0.1f)
+        if (!IsGrounded.Value || Input.magnitude < 0.1f)
         {
             _stepTimer = 0f;
             return;
@@ -71,7 +71,7 @@ public partial class GenericMovement
             return;
         }
 
-        float interval = CurrentMoveState switch
+        float interval = CurrentMoveState.Value switch
         {
             MoveState.Running => _sprintStepInterval,
             MoveState.Crouching => _crouchStepInterval,
