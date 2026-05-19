@@ -32,7 +32,7 @@ public class GameEventSystem : IEventSystem
 
         foreach (System.Delegate callback in eventSubscribers[eventType])
         {
-            eventData = ((EventCallback<T>)callback).Invoke(ref eventData);
+            ((EventCallback<T>)callback).Invoke(ref eventData);
         }
     }
 }
