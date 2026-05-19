@@ -10,7 +10,7 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(GenericMovement), typeof(CharacterController))]
 [RequireComponent(typeof(AudioSource))]
-public class WallRunner : MonoBehaviour
+public class WallRunner : MonoBehaviour, IEventSubscribedComponent
 {
     [Header("Wallrunning")]
 
@@ -82,13 +82,6 @@ public class WallRunner : MonoBehaviour
 
     [SerializeField]
     private float _cameraRotationSpeed = 45f;
-
-    [Header("Events")]
-    [SerializeField] private GameEvent _refreshAirJumpsEvent;
-    [SerializeField] private GameEvent _accelOverrideEvent;
-    [SerializeField] private GameEvent _moveDirectionOverrideEvent;
-    [SerializeField] private GameEvent _jumpEvent;
-    [SerializeField] private GameEvent _jumpAttemptEvent;
 
     [Header("Audio Settings")]
     [SerializeField]
@@ -231,7 +224,8 @@ public class WallRunner : MonoBehaviour
             _audioSource.Play();
         }
 
-        _refreshAirJumpsEvent.Raise(this, null);
+        var ev = new RefreshAirJumpsEvent();
+        this.RaiseEvent(ev);
     }
 
     private void StopWallRunning()
@@ -352,7 +346,8 @@ public class WallRunner : MonoBehaviour
         // Play random jump sound
         PlayRandomSound(_wallJumpSounds, _wallJumpVolume);
 
-        _refreshAirJumpsEvent.Raise(this, null);
+        var ev = new RefreshAirJumpsEvent();
+        this.RaiseEvent(ev);
 
         _lastNormal = _wallRight ? _rightWallRay.normal : _leftWallRay.normal;
     }
@@ -462,66 +457,36 @@ public class WallRunner : MonoBehaviour
         }
     }
 
-    public void OnAccelOverride(Component sender, object data)
+    public void ReceiveMessage(GameEventArgs args)
     {
-        if (data is not AccelOverrideData accel)
-            return;
-
-        if (sender.gameObject != gameObject)
-            return;
-
         if (!_wallRunning)
             return;
 
-        accel.Accel = _wallrunAcceleration;
-        accel.Decel = _wallrunDeceleration;
-        accel.Handled = true;
-    }
+        if (args is GetMoveAccelerationOverrideEvent accel)
+        {
+            accel.Acceleration = _wallrunAcceleration;
+            accel.Deceleration = _wallrunDeceleration;
+            accel.Handled = true;
+        }
 
-    public void OnMoveDirOverride(Component sender, object data)
-    {
-        if (data is not MoveDirectionOverrideData dirEv)
-            return;
-
-        if (sender.gameObject != gameObject)
-            return;
-
-        if (!_wallRunning)
-            return;
-
-        dirEv.Dir = _direction;
-        dirEv.Handled = true;
-    }
-
-    public void OnJump(Component sender, object data)
-    {
-        if (sender.gameObject != gameObject)
-            return;
-
-        if (!_wallRunning)
-            return;
+        if (args is GetMoveDirectionOverrideEvent dirEv)
+        {
+            dirEv.Dir = _direction;
+            dirEv.Handled = true;
+        }
 
         if (_jumpTimer < _sideCameraRotationDuration && (_movement.Input.x == 0 || _movement.Input.x > 0 == _wallRight))
             return;
 
-        _jumping = true;
-    }
+        if (args is JumpEvent)
+        {
+            _jumping = true;
+        }
 
-    public void OnCanJump(Component sender, object data)
-    {
-        if (data is not CanJumpData canJump)
-            return;
-
-        if (sender.gameObject != gameObject)
-            return;
-
-        if (!_wallRunning)
-            return;
-
-        if (_jumpTimer < _sideCameraRotationDuration && (_movement.Input.x == 0 || _movement.Input.x > 0 == _wallRight))
-            return;
-
-        canJump.CanJump = true;
-        canJump.Handled = true;
+        if (args is CanJumpEvent canJump)
+        {
+            canJump.CanJump = true;
+            canJump.Handled = true;
+        }
     }
 }

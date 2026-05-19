@@ -6,11 +6,17 @@ using UnityEngine;
 [RequireComponent(typeof(Damageable))]
 public class DestroyOnMaxDamage : MonoBehaviour
 {
-    public void OnMaxDamageReached(Component sender, object eventData)
-    {
-        if (sender.gameObject != gameObject)
-            return;
+    private Damageable _damageable;
 
-        Destroy(gameObject);
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        _damageable = GetComponent<Damageable>();
+        _damageable.OnMaxDamageReached += () => Destroy(gameObject);
+    }
+
+    void OnDisable()
+    {
+        _damageable.OnMaxDamageReached -= () => Destroy(gameObject);
     }
 }

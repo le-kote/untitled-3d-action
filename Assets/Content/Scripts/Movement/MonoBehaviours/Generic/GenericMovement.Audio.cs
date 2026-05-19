@@ -82,8 +82,12 @@ public partial class GenericMovement
 
         if (_stepTimer >= interval)
         {
+            var ev = new BeforeFootstepSoundEvent();
+            this.RaiseEvent(ev);
             _stepTimer = 0f;
-            PlayFootstepSound();
+
+            if (!ev.Cancelled)
+                PlayFootstepSound();
         }
     }
 
