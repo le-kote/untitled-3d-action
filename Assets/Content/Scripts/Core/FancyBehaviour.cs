@@ -26,6 +26,7 @@ public abstract class FancyBehaviour : MonoBehaviour
         foreach (var sub in _subscribedEvents)
         {
             UnsubscribeEvent(sub.Callback, sub.EventType);
+            UnsubscribeLocalEvent(sub.Callback, sub.EventType);
         }
 
         _subscribedEvents.Clear();
@@ -50,9 +51,32 @@ public abstract class FancyBehaviour : MonoBehaviour
         _eventSys.RaiseEvent(ref eventData);
     }
 
+    protected void RaiseEvent<T>() where T : struct
+    {
+        var eventData = default(T);
+        _eventSys.RaiseEvent(ref eventData);
+    }
+
+    protected void RaiseLocalEvent<T>(ref T eventData) where T : struct
+    {
+        _eventSys.RaiseLocalEvent(gameObject, ref eventData);
+    }
+
+    protected void RaiseLocalEvent<T>() where T : struct
+    {
+        var eventData = default(T);
+        _eventSys.RaiseLocalEvent(gameObject, ref eventData);
+    }
+
     protected void SubscribeEvent<T>(EventCallback<T> callback) where T : struct
     {
         _eventSys.Subscribe(callback);
+        _subscribedEvents.Add(new SubscribedEvent { Callback = callback, EventType = typeof(T) });
+    }
+
+    private void SubscribeLocalEvent<T>(EventCallback<T> callback) where T : struct
+    {
+        _eventSys.SubscribeLocal(gameObject, callback);
         _subscribedEvents.Add(new SubscribedEvent { Callback = callback, EventType = typeof(T) });
     }
 
@@ -67,5 +91,19 @@ public abstract class FancyBehaviour : MonoBehaviour
 
         var generic = unsubscribeMethod.MakeGenericMethod(eventType);
         generic.Invoke(_eventSys, new object[] { del });
+    }
+
+    private void UnsubscribeLocalEvent(System.Delegate del, System.Type eventType)
+    {
+        if (del == null || eventType == null)
+            return;
+
+        var unsubscribeMethod = _eventSys.GetType().GetMethod("UnsubscribeLocal");
+
+        if (unsubscribeMethod == null)
+            return;
+
+        var generic = unsubscribeMethod.MakeGenericMethod(eventType);
+        generic.Invoke(_eventSys, new object[] { gameObject, del });
     }
 }
