@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public sealed class GetMoveSpeedOverrideEvent : HandledGameEventArgs
+public record struct GetMoveSpeedOverrideEvent()
 {
     public float Speed = 0f;
+    public bool Handled = false;
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public sealed class GetMoveSpeedModifiersEvent : GameEventArgs
+public record struct GetMoveSpeedModifiersEvent()
 {
     public float Modifier = 1f;
 }

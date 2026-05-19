@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 /// This component handles the most common movement, such as walking, running, crouching and jumping
 /// </summary>
 [RequireComponent(typeof(CharacterController), typeof(AudioSource))]
-public partial class GenericMovement : MonoBehaviour
+public partial class GenericMovement : FancyBehaviour
 {
     private CharacterController _cc;
 
@@ -69,7 +69,7 @@ public partial class GenericMovement : MonoBehaviour
             return;
 
         var ev = new MoveStateChangedEvent(CurrentMoveState, moveState);
-        this.RaiseEvent(ev);
+        RaiseLocalEvent(ref ev);
 
         CurrentMoveState = moveState;
         var fov = CurrentMoveState switch
@@ -121,12 +121,12 @@ public partial class GenericMovement : MonoBehaviour
 
         var canJump = IsGrounded || _coyoteTimer <= _coyoteTime;
 
-        var ev = new CanJumpEvent(canJump);
-        this.RaiseEvent(ev);
+        var ev = new CanJumpEvent(IsGrounded, canJump);
+        RaiseLocalEvent(ref ev);
 
         if (ev.Handled ? ev.CanJump : canJump)
         {
-            this.RaiseEvent(new JumpEvent());
+            RaiseLocalEvent<JumpEvent>();
             _jumping = true;
             PlayJumpSound();
         }

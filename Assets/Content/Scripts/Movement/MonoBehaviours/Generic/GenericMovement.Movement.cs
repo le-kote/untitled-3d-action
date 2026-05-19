@@ -152,10 +152,10 @@ public partial class GenericMovement
         };
 
         var ev = new GetMoveSpeedOverrideEvent();
-        this.RaiseEvent(ev);
+        RaiseLocalEvent(ref ev);
 
         var modifiersEv = new GetMoveSpeedModifiersEvent();
-        this.RaiseEvent(modifiersEv);
+        RaiseLocalEvent(ref modifiersEv);
 
         var resultSpeed = (ev.Handled ? ev.Speed : speed) * modifiersEv.Modifier;
         return resultSpeed;
@@ -169,7 +169,7 @@ public partial class GenericMovement
             desiredDirection = (transform.forward * Input.y + transform.right * Input.x).normalized;
 
         var dirEv = new GetMoveDirectionOverrideEvent();
-        this.RaiseEvent(dirEv);
+        RaiseLocalEvent(ref dirEv);
 
         if (dirEv.Handled)
             desiredDirection = dirEv.Dir.normalized;
@@ -194,7 +194,7 @@ public partial class GenericMovement
         }
 
         var ev = new GetMoveAccelerationOverrideEvent();
-        this.RaiseEvent(ev);
+        RaiseLocalEvent(ref ev);
 
         if (ev.Handled)
             (currentAccel, currentDecel) = (ev.Acceleration, ev.Deceleration);

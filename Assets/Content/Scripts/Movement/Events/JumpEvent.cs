@@ -1,5 +1,5 @@
 using UnityEngine;
 
-public sealed class JumpEvent : GameEventArgs
+public struct JumpEvent
 {
 }

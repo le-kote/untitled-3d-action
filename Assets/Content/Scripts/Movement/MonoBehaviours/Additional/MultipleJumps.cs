@@ -4,7 +4,7 @@ using UnityEngine;
 /// This component allows user to perform air jumps
 /// </summary>
 [RequireComponent(typeof(GenericMovement))]
-public class MultipleJumps : MonoBehaviour, IEventSubscribedComponent
+public class MultipleJumps : FancyBehaviour
 {
     [SerializeField]
     private int MaxAirJumps = 1;
@@ -25,16 +25,15 @@ public class MultipleJumps : MonoBehaviour, IEventSubscribedComponent
             JumpsSpent = 0;
     }
 
-    public void ReceiveMessage(GameEventArgs args)
+    protected override void InitializeEvents()
     {
-        if (args is CanJumpEvent ev)
-            OnCanJump(ev);
+        base.InitializeEvents();
 
-        if (args is RefreshAirJumpsEvent)
-            JumpsSpent = 0;
+        SubscribeLocalEvent<CanJumpEvent>(OnCanJump);
+        SubscribeLocalEvent<RefreshAirJumpsEvent>(OnRefreshJumps);
     }
 
-    private void OnCanJump(CanJumpEvent ev)
+    private void OnCanJump(ref CanJumpEvent ev)
     {
         if (ev.Grounded)
             return;
@@ -45,5 +44,10 @@ public class MultipleJumps : MonoBehaviour, IEventSubscribedComponent
         JumpsSpent++;
         ev.CanJump = true;
         ev.Handled = true;
+    }
+
+    private void OnRefreshJumps(ref RefreshAirJumpsEvent ev)
+    {
+        JumpsSpent = 0;
     }
 }

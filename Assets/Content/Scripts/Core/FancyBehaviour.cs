@@ -74,7 +74,7 @@ public abstract class FancyBehaviour : MonoBehaviour
         _subscribedEvents.Add(new SubscribedEvent { Callback = callback, EventType = typeof(T) });
     }
 
-    private void SubscribeLocalEvent<T>(EventCallback<T> callback) where T : struct
+    protected void SubscribeLocalEvent<T>(EventCallback<T> callback) where T : struct
     {
         _eventSys.SubscribeLocal(gameObject, callback);
         _subscribedEvents.Add(new SubscribedEvent { Callback = callback, EventType = typeof(T) });

@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// This component allows user to temporarily modify their movement speed
 /// </summary>
-public class SpeedModifyAbility : MonoBehaviour, IEventSubscribedComponent
+public class SpeedModifyAbility : FancyBehaviour
 {
     [SerializeField]
     private float _modifier = 1.3f;
@@ -30,6 +30,13 @@ public class SpeedModifyAbility : MonoBehaviour, IEventSubscribedComponent
         }
     }
 
+    protected override void InitializeEvents()
+    {
+        base.InitializeEvents();
+
+        SubscribeLocalEvent<GetMoveSpeedModifiersEvent>(OnGetMoveSpeedModifiers);
+    }
+
     public void DoEffect(InputAction.CallbackContext context)
     {
         if (!isActiveAndEnabled)
@@ -42,14 +49,11 @@ public class SpeedModifyAbility : MonoBehaviour, IEventSubscribedComponent
         _abilityTimer = 0f;
     }
 
-    public void ReceiveMessage(GameEventArgs args)
+    private void OnGetMoveSpeedModifiers(ref GetMoveSpeedModifiersEvent ev)
     {
         if (!_active)
             return;
 
-        if (args is GetMoveSpeedModifiersEvent ev)
-        {
-            ev.Modifier *= _modifier;
-        }
+        ev.Modifier *= _modifier;
     }
 }

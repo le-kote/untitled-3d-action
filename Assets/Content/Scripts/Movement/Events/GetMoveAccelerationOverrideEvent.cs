@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public sealed class GetMoveAccelerationOverrideEvent : HandledGameEventArgs
+public record struct GetMoveAccelerationOverrideEvent()
 {
     public float Acceleration = 0f;
     public float Deceleration = 0f;
+    public bool Handled = false;
 }

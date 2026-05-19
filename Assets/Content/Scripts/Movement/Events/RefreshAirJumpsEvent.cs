@@ -1,5 +1,5 @@
 using UnityEngine;
 
-public sealed class RefreshAirJumpsEvent : GameEventArgs
+public struct RefreshAirJumpsEvent
 {
 }

@@ -1,12 +1,6 @@
 using UnityEngine;
 
-public sealed class CanJumpEvent : HandledGameEventArgs
+public record struct CanJumpEvent(bool Grounded, bool CanJump)
 {
-    public bool CanJump = false;
-    public bool Grounded = false;
-
-    public CanJumpEvent(bool isGrounded)
-    {
-        Grounded = isGrounded;
-    }
+    public bool Handled = false;
 }

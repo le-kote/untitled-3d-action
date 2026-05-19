@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public sealed class GetMoveDirectionOverrideEvent : HandledGameEventArgs
+public record struct GetMoveDirectionOverrideEvent()
 {
     public Vector3 Dir = Vector3.zero;
+    public bool Handled = false;
 }

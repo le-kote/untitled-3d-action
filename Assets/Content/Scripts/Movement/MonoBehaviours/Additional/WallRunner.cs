@@ -10,7 +10,7 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(GenericMovement), typeof(CharacterController))]
 [RequireComponent(typeof(AudioSource))]
-public class WallRunner : MonoBehaviour, IEventSubscribedComponent
+public class WallRunner : FancyBehaviour
 {
     [Header("Wallrunning")]
 
@@ -165,6 +165,16 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
             _lastNormalResetTimer += Time.fixedDeltaTime;
     }
 
+    protected override void InitializeEvents()
+    {
+        base.InitializeEvents();
+
+        SubscribeLocalEvent<GetMoveAccelerationOverrideEvent>(OnAccelerationOverride);
+        SubscribeLocalEvent<GetMoveDirectionOverrideEvent>(OnMoveDirectionOverride);
+        SubscribeLocalEvent<JumpEvent>(OnJump);
+        SubscribeLocalEvent<CanJumpEvent>(OnCanJump);
+    }
+
     private void CheckWalls()
     {
         foreach (var item in _leftRayDirections)
@@ -192,6 +202,7 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
         _wallLeft = false;
     }
 
+    #region State switching
     private void SwitchStates()
     {
 
@@ -225,7 +236,7 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
         }
 
         var ev = new RefreshAirJumpsEvent();
-        this.RaiseEvent(ev);
+        RaiseLocalEvent(ref ev);
     }
 
     private void StopWallRunning()
@@ -245,7 +256,9 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
         // Play random end sound
         PlayRandomSound(_wallrunEndSounds, _wallrunEndVolume);
     }
+    #endregion
 
+    #region Audio
     private void PlayRandomSound(AudioClip[] clips, float volume)
     {
         if (clips == null || clips.Length == 0 || _audioSource == null)
@@ -311,7 +324,9 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
             _footstepTimer = -Random.Range(0f, 0.05f);
         }
     }
+    #endregion
 
+    #region Movement
     private void HandleMovement()
     {
         if (!_wallRunning)
@@ -347,7 +362,7 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
         PlayRandomSound(_wallJumpSounds, _wallJumpVolume);
 
         var ev = new RefreshAirJumpsEvent();
-        this.RaiseEvent(ev);
+        RaiseLocalEvent(ref ev);
 
         _lastNormal = _wallRight ? _rightWallRay.normal : _leftWallRay.normal;
     }
@@ -408,7 +423,9 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
 
         _camera.transform.DOLocalRotate(new Vector3(0f, 0f, targetAngle), _sideCameraRotationDuration);
     }
+    #endregion
 
+    #region API
     private bool AboveGround()
     {
         return !Physics.Raycast(transform.position + (Vector3.zero * (_cc.height / 2)), Vector3.down, _minJumpHeight, _groundLayer) && !_movement.IsGrounded;
@@ -456,37 +473,44 @@ public class WallRunner : MonoBehaviour, IEventSubscribedComponent
             return false;
         }
     }
+    #endregion
 
-    public void ReceiveMessage(GameEventArgs args)
+    #region Event handlers
+    private void OnAccelerationOverride(ref GetMoveAccelerationOverrideEvent ev)
     {
         if (!_wallRunning)
             return;
 
-        if (args is GetMoveAccelerationOverrideEvent accel)
-        {
-            accel.Acceleration = _wallrunAcceleration;
-            accel.Deceleration = _wallrunDeceleration;
-            accel.Handled = true;
-        }
+        ev.Acceleration = _wallrunAcceleration;
+        ev.Deceleration = _wallrunDeceleration;
+        ev.Handled = true;
+    }
 
-        if (args is GetMoveDirectionOverrideEvent dirEv)
-        {
-            dirEv.Dir = _direction;
-            dirEv.Handled = true;
-        }
-
-        if (_jumpTimer < _sideCameraRotationDuration && (_movement.Input.x == 0 || _movement.Input.x > 0 == _wallRight))
+    private void OnMoveDirectionOverride(ref GetMoveDirectionOverrideEvent ev)
+    {
+        if (!_wallRunning)
             return;
 
-        if (args is JumpEvent)
-        {
-            _jumping = true;
-        }
-
-        if (args is CanJumpEvent canJump)
-        {
-            canJump.CanJump = true;
-            canJump.Handled = true;
-        }
+        ev.Dir = _direction;
+        ev.Handled = true;
     }
+
+    private void OnJump(ref JumpEvent ev)
+    {
+        if (!_wallRunning)
+            return;
+
+        _jumping = true;
+    }
+
+    private void OnCanJump(ref CanJumpEvent ev)
+    {
+        if (!_wallRunning)
+            return;
+
+        ev.CanJump = true;
+        ev.Handled = true;
+    }
+
+    #endregion
 }
