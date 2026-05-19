@@ -50,7 +50,7 @@ public class Sliding : MonoBehaviour
     {
         _slideAccumulator += Time.deltaTime;
 
-        if (!_movement.IsGrounded.Value)
+        if (!_movement.IsGrounded)
             _slideAccumulator = 0f;
 
         if (_slideAccumulator >= _slideDuration)
@@ -71,7 +71,7 @@ public class Sliding : MonoBehaviour
         if (sender.gameObject != gameObject)
             return;
 
-        if (!_isSliding || !_movement.IsGrounded.Value)
+        if (!_isSliding || !_movement.IsGrounded)
             return;
 
         ev.Accel = _slideAcceleration;
@@ -87,9 +87,6 @@ public class Sliding : MonoBehaviour
         if (sender.gameObject != gameObject)
             return;
 
-        if (!_isSliding)
-            return;
-
         ev.Speed = _slideSpeed;
         ev.Handled = true;
     }
@@ -99,7 +96,7 @@ public class Sliding : MonoBehaviour
         if (sender.gameObject != gameObject)
             return;
 
-        if (!_isSliding || !_movement.IsGrounded.Value)
+        if (!_isSliding)
             return;
 
         _movement.SetVelocity(_movement.Velocity.normalized * _slideSpeed);

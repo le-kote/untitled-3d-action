@@ -1,6 +1,5 @@
 using System;
 using DG.Tweening;
-using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,11 +26,9 @@ public partial class GenericMovement : MonoBehaviour
     /// </summary>
     public Vector3 Velocity { get; private set; } = Vector3.zero;
 
-    public ReactiveProperty<MoveState> CurrentMoveState { get; private set; } = new(MoveState.Walking);
+    public MoveState CurrentMoveState { get; private set; } = MoveState.Walking;
 
-    public BoolReactiveProperty IsGrounded { get; private set; } = new(false);
-
-    private CompositeDisposable _disposable = new();
+    public bool IsGrounded { get; private set; } = false;
 
     [Header("Events")]
     [SerializeField] private GameEvent _moveSpeedOverrideEvent;
@@ -43,7 +40,6 @@ public partial class GenericMovement : MonoBehaviour
 
     [SerializeField] private GameEvent _jumpAttemptEvent;
     [SerializeField] private GameEvent _jumpEvent;
-    [SerializeField] private GameEvent _groundedStateChangedEvent;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -53,7 +49,6 @@ public partial class GenericMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        InitializeReactives();
         InitializeAudio();
     }
 
@@ -79,33 +74,22 @@ public partial class GenericMovement : MonoBehaviour
         _groundNormal = hit.normal;
     }
 
-    #region Reactives
-    private void OnDisable()
-    {
-        _disposable.Dispose();
-    }
-
-    private void InitializeReactives()
-    {
-        IsGrounded
-            .Pairwise()
-            .Subscribe(x => OnGroundedState(x.Previous, x.Current))
-            .AddTo(_disposable);
-
-        CurrentMoveState
-            .Pairwise()
-            .Subscribe(x => OnMoveStateSet(x.Previous, x.Current))
-            .AddTo(_disposable);
-    }
-    #endregion
-
     #region Public API
     public void SetMoveState(MoveState moveState)
     {
-        if (CurrentMoveState.Value == moveState)
+        if (CurrentMoveState == moveState)
             return;
 
-        CurrentMoveState.Value = moveState;
+        _moveStateChangedEvent.Raise(this, new MoveStateChangeData(CurrentMoveState, moveState));
+
+        CurrentMoveState = moveState;
+        var fov = CurrentMoveState switch
+        {
+            MoveState.Running => _sprintFov,
+            _ => _walkFov
+        };
+
+        _camera.DOFieldOfView(fov, 0.25f);
     }
 
     public void SetVelocity(Vector3 velocity)
@@ -146,9 +130,9 @@ public partial class GenericMovement : MonoBehaviour
         if (!context.performed)
             return;
 
-        var canJump = IsGrounded.Value || _coyoteTimer <= _coyoteTime;
+        var canJump = IsGrounded || _coyoteTimer <= _coyoteTime;
 
-        var jumpData = new CanJumpData { CanJump = canJump, Grounded = IsGrounded.Value };
+        var jumpData = new CanJumpData { CanJump = canJump, Grounded = IsGrounded };
         _jumpAttemptEvent.Raise(this, jumpData);
 
         if (jumpData.Handled ? jumpData.CanJump : canJump)
@@ -177,7 +161,7 @@ public partial class GenericMovement : MonoBehaviour
         if (!context.performed)
             return;
 
-        var newState = CurrentMoveState.Value == MoveState.Crouching ? MoveState.Walking : MoveState.Crouching;
+        var newState = CurrentMoveState == MoveState.Crouching ? MoveState.Walking : MoveState.Crouching;
 
         SetMoveState(newState);
     }

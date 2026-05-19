@@ -10,18 +10,19 @@ public class MultipleJumps : MonoBehaviour
     private int MaxAirJumps = 1;
     private int JumpsSpent = 0;
 
-    public void OnGroundedState(Component sender, object data)
+    private GenericMovement _movement;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
     {
-        if (data is not bool grounded)
-            return;
+        _movement = GetComponent<GenericMovement>();
+    }
 
-        if (sender.gameObject != gameObject)
-            return;
-
-        if (!grounded)
-            return;
-
-        JumpsSpent = 0;
+    // Update is called once per frame
+    void Update()
+    {
+        if (_movement.IsGrounded)
+            JumpsSpent = 0;
     }
 
     public void OnCanJump(Component sender, object data)
