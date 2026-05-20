@@ -1,0 +1,182 @@
+OVDF v1.1
+WallRunner, Assembly-CSharp
+MetaGuid:7a591b82bc241f8449abe5a6571044b5
+
+# $CPEqwAuXqHk7dajTXb2SLs
+Position: $root:2
++ [Sirenix.OdinInspector.TabGroupAttribute]
+
+# $Kp6cg8bvnfYmVtBeqY5Wy9
+Position: $CPEqwAuXqHk7dajTXb2SLs:0
++ [Sirenix.OdinInspector.TabGroupAttribute+TabSubGroupAttribute]
+	GroupName = "Wallrunning"
+	Name = "Wallrunning"
+	Icon = ArrowsMove
+	TextColor = "#FFEB00"
+
+# $3gMnAo7A5JmDRtH1XVUjKr
+Position: $Kp6cg8bvnfYmVtBeqY5Wy9:0
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Movement"
+
+# $PFkLJUCJ6JPRr1sQQAH9pH
+Position: $Kp6cg8bvnfYmVtBeqY5Wy9:1
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Detection"
+
+# $XPYt6b3ZzZF6iH9s7Vqhou
+Position: $CPEqwAuXqHk7dajTXb2SLs:1
++ [Sirenix.OdinInspector.TabGroupAttribute+TabSubGroupAttribute]
+	GroupName = "Visual"
+	Name = "Visual"
+	TextColor = "#00E1FF"
+	Icon = CameraVideo
+
+# $VUC3sHD4yoK4tJ6mfk7bhX
+Position: $CPEqwAuXqHk7dajTXb2SLs:2
++ [Sirenix.OdinInspector.TabGroupAttribute+TabSubGroupAttribute]
+	GroupName = "Audio"
+	Name = "Audio"
+	Icon = Soundwave
+	TextColor = "#12FF0E"
+
+# $vJaAHU3WnuFmd2WxCMUni
+Position: $VUC3sHD4yoK4tJ6mfk7bhX:1
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Sounds"
+
+# $LdfNDWcFwVZfnZiRoUdzJJ
+Position: $VUC3sHD4yoK4tJ6mfk7bhX:2
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Volumes"
+
+# $TZB4qVYTfNGSzanM8Rje2C
+Position: $VUC3sHD4yoK4tJ6mfk7bhX:3
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Pitch"
+
+# _wallrunAcceleration
+Position: $3gMnAo7A5JmDRtH1XVUjKr:0
+
+# _wallrunDeceleration
+Position: $3gMnAo7A5JmDRtH1XVUjKr:1
+
+# _verticalVelocityDeceleration
+Position: $3gMnAo7A5JmDRtH1XVUjKr:2
+- [UnityEngine.HeaderAttribute]
+
+# _jumpSpeed
+Position: $3gMnAo7A5JmDRtH1XVUjKr:3
+- [UnityEngine.HeaderAttribute]
+
+# _maxWallRunTime
+Position: $PFkLJUCJ6JPRr1sQQAH9pH:2
+
+# _maxWallRunSlope
+Position: $PFkLJUCJ6JPRr1sQQAH9pH:3
+
+# _requireSprint
+Position: $PFkLJUCJ6JPRr1sQQAH9pH:7
+
+# _wallLayer
+Position: $PFkLJUCJ6JPRr1sQQAH9pH:0
+* [UnityEngine.HeaderAttribute]
+	header = "Layers"
+
+# _lastNormalResetDuration
+Position: $PFkLJUCJ6JPRr1sQQAH9pH:4
+
+# _groundLayer
+Position: $PFkLJUCJ6JPRr1sQQAH9pH:1
+
+# _maxWallDistance
+Position: $PFkLJUCJ6JPRr1sQQAH9pH:5
+
+# _minJumpHeight
+Position: $PFkLJUCJ6JPRr1sQQAH9pH:6
+
+# _leftRayDirections
+Position: $PFkLJUCJ6JPRr1sQQAH9pH:8
++ [UnityEngine.SpaceAttribute]
+
+# _rightRayDirections
+Position: $PFkLJUCJ6JPRr1sQQAH9pH:9
++ [UnityEngine.SpaceAttribute]
+
+# _camera
+Position: $XPYt6b3ZzZF6iH9s7Vqhou:0
+
+# _onWallAngle
+Position: $XPYt6b3ZzZF6iH9s7Vqhou:1
+
+# _rotationLerpAmount
+Position: $XPYt6b3ZzZF6iH9s7Vqhou:2
+
+# _sideCameraRotationDuration
+Position: $XPYt6b3ZzZF6iH9s7Vqhou:3
+
+# _cameraRotationSpeed
+Position: $XPYt6b3ZzZF6iH9s7Vqhou:4
+
+# _audioSource
+Position: $VUC3sHD4yoK4tJ6mfk7bhX:0
+
+# _wallrunStartSounds
+Position: $vJaAHU3WnuFmd2WxCMUni:0
+- [UnityEngine.HeaderAttribute]
++ [UnityEngine.SpaceAttribute]
+
+# _wallrunStartVolume
+Position: $LdfNDWcFwVZfnZiRoUdzJJ:0
+
+# _wallrunLoopSounds
+Position: $vJaAHU3WnuFmd2WxCMUni:1
+- [UnityEngine.HeaderAttribute]
++ [UnityEngine.SpaceAttribute]
+
+# _wallrunEndSounds
+Position: $vJaAHU3WnuFmd2WxCMUni:2
+- [UnityEngine.HeaderAttribute]
++ [UnityEngine.SpaceAttribute]
+
+# _wallJumpSounds
+Position: $vJaAHU3WnuFmd2WxCMUni:3
+- [UnityEngine.HeaderAttribute]
++ [UnityEngine.SpaceAttribute]
+
+# _wallrunFootstepSounds
+Position: $vJaAHU3WnuFmd2WxCMUni:4
+- [UnityEngine.HeaderAttribute]
++ [UnityEngine.SpaceAttribute]
+
+# _wallrunLoopVolume
+Position: $LdfNDWcFwVZfnZiRoUdzJJ:1
+
+# _wallrunEndVolume
+Position: $LdfNDWcFwVZfnZiRoUdzJJ:2
+
+# _wallJumpVolume
+Position: $LdfNDWcFwVZfnZiRoUdzJJ:3
+
+# _footstepVolume
+Position: $LdfNDWcFwVZfnZiRoUdzJJ:4
+
+# _footstepInterval
+Position: $vJaAHU3WnuFmd2WxCMUni:5
++ [UnityEngine.SpaceAttribute]
+
+# _enableSpeedPitchVariation
+Position: $TZB4qVYTfNGSzanM8Rje2C:0
+- [UnityEngine.HeaderAttribute]
+
+# _minSpeedPitch
+Position: $TZB4qVYTfNGSzanM8Rje2C:1
+
+# _maxSpeedPitch
+Position: $TZB4qVYTfNGSzanM8Rje2C:2
+
+# _minSpeedForPitch
+Position: $TZB4qVYTfNGSzanM8Rje2C:3
+
+# _maxSpeedForPitch
+Position: $TZB4qVYTfNGSzanM8Rje2C:4

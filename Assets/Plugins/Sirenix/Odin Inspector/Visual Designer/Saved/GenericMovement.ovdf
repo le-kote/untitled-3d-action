@@ -1,0 +1,249 @@
+OVDF v1.1
+GenericMovement, Assembly-CSharp
+MetaGuid:02d18e0cf124f7d4487f2e9ea5f0f3ef
+
+# $PbwqN1VpaKtRrMegdGbBfD
+Position: $root:10
++ [Sirenix.OdinInspector.TabGroupAttribute]
+
+# $DuMXLv39oc9eDqef6rZTAM
+Position: $PbwqN1VpaKtRrMegdGbBfD:1
++ [Sirenix.OdinInspector.TabGroupAttribute+TabSubGroupAttribute]
+	GroupName = "Camera"
+	Name = "Camera"
+	Icon = CameraVideo
+	TextColor = "#00E1FF"
+
+# $YPsP9m3s5stKWLx2AvqDsP
+Position: $PbwqN1VpaKtRrMegdGbBfD:0
++ [Sirenix.OdinInspector.TabGroupAttribute+TabSubGroupAttribute]
+	GroupName = "Movement"
+	Name = "Movement"
+	Icon = ArrowsMove
+	TextColor = "#FFEB00"
+
+# $24pu14yEPUQCvRUPHKHepM
+Position: $DuMXLv39oc9eDqef6rZTAM:0
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "References"
+
+# $BmPath9aVHiVDrHkgPQKnm
+Position: $DuMXLv39oc9eDqef6rZTAM:1
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Params"
+
+# $6QimUbPHoi65CPmb3afxAX
+Position: $PbwqN1VpaKtRrMegdGbBfD:2
++ [Sirenix.OdinInspector.TabGroupAttribute+TabSubGroupAttribute]
+	GroupName = "Audio"
+	Name = "Audio"
+	Icon = Soundwave
+	TextColor = "#12FF0E"
+
+# $MEmyfV85DpjFagvYmjiA7k
+Position: $YPsP9m3s5stKWLx2AvqDsP:0
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Speed"
+
+# $RAb3Fv9M4xCk7byvXomKYT
+Position: $YPsP9m3s5stKWLx2AvqDsP:2
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Jumping"
+
+# $NQwHWpiswvBTmQEGtHQitJ
+Position: $YPsP9m3s5stKWLx2AvqDsP:3
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Crouching"
+
+# $9KMNw6UMTMV3vcvG6f8V6w
+Position: $YPsP9m3s5stKWLx2AvqDsP:1
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Acceleration"
+
+# $VSJMqdijWaJqTqqDG4enzn
+Position: $YPsP9m3s5stKWLx2AvqDsP:4
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Misc"
+
+# $BWB2zzndV2B4gaSppBVEbD
+Position: $6QimUbPHoi65CPmb3afxAX:0
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Sounds"
+
+# $UpBcR2UaLUDCp6eJJoGZ93
+Position: $6QimUbPHoi65CPmb3afxAX:1
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Volumes"
+
+# $RwbD8RhwGznU8aMs33utJc
+Position: $6QimUbPHoi65CPmb3afxAX:2
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Intervals"
+
+# $HVAcbEeamuoxjhmRU3jmgi
+Position: $9KMNw6UMTMV3vcvG6f8V6w:0
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Acceleration"
+	AnimateVisibility = True
+	BoldTitle = False
+	HorizontalLine = False
+	Alignment = Centered
+	Subtitle = ""
+	Indent = False
+
+# $5ZbThBTcJwv7HgNNYfrBHs
+Position: $9KMNw6UMTMV3vcvG6f8V6w:1
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Air acceleration"
+	Alignment = Centered
+	HorizontalLine = False
+	BoldTitle = False
+
+# $9qfMMTBN2Rw3GEXQ3phsRr
+Position: $9KMNw6UMTMV3vcvG6f8V6w:2
++ [Sirenix.OdinInspector.TitleGroupAttribute]
+	GroupName = "Sprint acceleration"
+	HorizontalLine = False
+	BoldTitle = False
+	Alignment = Centered
+
+# _cameraSpeed
+Position: $BmPath9aVHiVDrHkgPQKnm:0
+- [UnityEngine.HeaderAttribute]
+
+# _cameraHolder
+Position: $24pu14yEPUQCvRUPHKHepM:0
+
+# _camera
+Position: $24pu14yEPUQCvRUPHKHepM:1
+
+# _cameraYLimits
+Position: $BmPath9aVHiVDrHkgPQKnm:1
+
+# _walkFov
+Position: $BmPath9aVHiVDrHkgPQKnm:2
+
+# _sprintFov
+Position: $BmPath9aVHiVDrHkgPQKnm:3
+
+# _moveSpeed
+Position: $MEmyfV85DpjFagvYmjiA7k:0
+- [UnityEngine.HeaderAttribute]
+
+# _sprintSpeed
+Position: $MEmyfV85DpjFagvYmjiA7k:1
+
+# _crouchSpeed
+Position: $MEmyfV85DpjFagvYmjiA7k:2
+
+# _smallJumpHeight
+Position: $RAb3Fv9M4xCk7byvXomKYT:0
+
+# _bigJumpHeight
+Position: $RAb3Fv9M4xCk7byvXomKYT:1
+
+# _bigJumpSelected
+Position: $RAb3Fv9M4xCk7byvXomKYT:4
+
+# _gravity
+Position: $RAb3Fv9M4xCk7byvXomKYT:2
+
+# UseGravity
+Position: $RAb3Fv9M4xCk7byvXomKYT:5
+
+# _crouchHeight
+Position: $NQwHWpiswvBTmQEGtHQitJ:1
+- [UnityEngine.HeaderAttribute]
+
+# _height
+Position: $NQwHWpiswvBTmQEGtHQitJ:0
+
+# _heightChangeSpeed
+Position: $NQwHWpiswvBTmQEGtHQitJ:2
+
+# _coyoteTime
+Position: $RAb3Fv9M4xCk7byvXomKYT:3
+
+# _acceleration
+Position: $HVAcbEeamuoxjhmRU3jmgi:0
+- [UnityEngine.HeaderAttribute]
++ [UnityEngine.SpaceAttribute]
+	height = -10
+
+# _airAcceleration
+Position: $5ZbThBTcJwv7HgNNYfrBHs:0
++ [UnityEngine.SpaceAttribute]
+	height = -10
+
+# _sprintAcceleration
+Position: $9qfMMTBN2Rw3GEXQ3phsRr:0
++ [UnityEngine.SpaceAttribute]
+	height = -10
+
+# _deceleration
+Position: $9KMNw6UMTMV3vcvG6f8V6w:3
+
+# _airDeceleration
+Position: $9KMNw6UMTMV3vcvG6f8V6w:4
+
+# _sprintDeceleration
+Position: $9KMNw6UMTMV3vcvG6f8V6w:5
+
+# MovementEnabled
+Position: $VSJMqdijWaJqTqqDG4enzn:0
+
+# _slopeFriction
+Position: $VSJMqdijWaJqTqqDG4enzn:1
+
+# _footstepSounds
+Position: $BWB2zzndV2B4gaSppBVEbD:0
+- [UnityEngine.HeaderAttribute]
++ [Sirenix.OdinInspector.ListDrawerSettingsAttribute]
+	HideAddButton = False
+	paging = False
+	pagingHasValue = True
+	draggable = True
+	draggableHasValue = True
+	numberOfItemsPerPage = 0
+	numberOfItemsPerPageHasValue = True
+	showItemCount = True
+	showItemCountHasValue = True
+	isReadOnly = False
+	isReadOnlyHasValue = True
+	defaultExpandedState = True
+	defaultExpandedStateHasValue = True
+	showIndexLabels = False
+	showIndexLabelsHasValue = True
+	ShowFoldout = False
++ [UnityEngine.SpaceAttribute]
+
+# _jumpSound
+Position: $BWB2zzndV2B4gaSppBVEbD:1
++ [UnityEngine.SpaceAttribute]
+
+# _landSound
+Position: $BWB2zzndV2B4gaSppBVEbD:2
+
+# _bigJumpSelectedSound
+Position: $BWB2zzndV2B4gaSppBVEbD:3
+
+# _smallJumpSelectedSound
+Position: $BWB2zzndV2B4gaSppBVEbD:4
+
+# _footstepVolume
+Position: $UpBcR2UaLUDCp6eJJoGZ93:0
+
+# _jumpVolume
+Position: $UpBcR2UaLUDCp6eJJoGZ93:1
+
+# _landVolume
+Position: $UpBcR2UaLUDCp6eJJoGZ93:2
+
+# _walkStepInterval
+Position: $RwbD8RhwGznU8aMs33utJc:0
+
+# _sprintStepInterval
+Position: $RwbD8RhwGznU8aMs33utJc:1
+
+# _crouchStepInterval
+Position: $RwbD8RhwGznU8aMs33utJc:2

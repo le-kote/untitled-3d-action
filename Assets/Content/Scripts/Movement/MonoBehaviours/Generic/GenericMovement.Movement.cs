@@ -33,12 +33,6 @@ public partial class GenericMovement
     private float _slopeFriction = 0.3f;
 
     [SerializeField]
-    private float _jumpReducionOnRelease = 0.5f;
-
-    [SerializeField]
-    private float _jumpReducionThreshold = 5f;
-
-    [SerializeField]
     private float _coyoteTime = .1f;
 
     [Header("Crouching")]
@@ -55,28 +49,13 @@ public partial class GenericMovement
     [Header("Acceleration")]
 
     [SerializeField]
-    [Tooltip("How fast player accelerates when walking or crouching on ground")]
-    private float _acceleration = 15f;
+    private AccelerationConfig _acceleration;
 
     [SerializeField]
-    [Tooltip("How fast player accelerates in air")]
-    private float _airAcceleration = 8f;
+    private AccelerationConfig _airAcceleration;
 
     [SerializeField]
-    [Tooltip("How fast player decelerates when walking or crouching on ground")]
-    private float _deceleration = 12f;
-
-    [SerializeField]
-    [Tooltip("How fast player decelerates in air")]
-    private float _airDeceleration = 0f;
-
-    [SerializeField]
-    [Tooltip("How fast player accelerates when sprinting on ground")]
-    private float _sprintAcceleration = 20f;
-
-    [SerializeField]
-    [Tooltip("How fast player decelerates when sprinting on ground")]
-    private float _sprintDeceleration = 15f;
+    private AccelerationConfig _sprintAcceleration;
 
     private float _jumpHeight => _bigJumpSelected ? _bigJumpHeight : _smallJumpHeight;
     private bool _jumping = false;
@@ -184,13 +163,13 @@ public partial class GenericMovement
 
         if (!IsGrounded)
         {
-            currentAccel = _airAcceleration;
-            currentDecel = _airDeceleration;
+            currentAccel = _airAcceleration.Acceleration;
+            currentDecel = _airAcceleration.Deceleration;
         }
         else
         {
-            currentAccel = CurrentMoveState == MoveState.Running ? _sprintAcceleration : _acceleration;
-            currentDecel = CurrentMoveState == MoveState.Running ? _sprintDeceleration : _deceleration;
+            currentAccel = CurrentMoveState == MoveState.Running ? _sprintAcceleration.Acceleration : _acceleration.Acceleration;
+            currentDecel = CurrentMoveState == MoveState.Running ? _sprintAcceleration.Deceleration : _acceleration.Deceleration;
         }
 
         var ev = new GetMoveAccelerationOverrideEvent();

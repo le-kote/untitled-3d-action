@@ -1,0 +1,25 @@
+OVDF v1.1
+AccelerationConfig, Assembly-CSharp
+
+# $self
++ [Sirenix.OdinInspector.InlinePropertyAttribute]
++ [Sirenix.OdinInspector.HideLabelAttribute]
+
+# $8NaHuDpDwj3LFKS846g3tB
+Position: $root:1
++ [Sirenix.OdinInspector.HorizontalGroupAttribute]
+	Gap = 3
+
+# Acceleration
+Position: $8NaHuDpDwj3LFKS846g3tB:0
++ [Sirenix.OdinInspector.TitleAttribute]
+	Title = "Acceleration"
+	TitleAlignment = Centered
++ [Sirenix.OdinInspector.HideLabelAttribute]
+
+# Deceleration
+Position: $8NaHuDpDwj3LFKS846g3tB:1
++ [Sirenix.OdinInspector.TitleAttribute]
+	Title = "Deceleration"
+	TitleAlignment = Centered
++ [Sirenix.OdinInspector.HideLabelAttribute]
