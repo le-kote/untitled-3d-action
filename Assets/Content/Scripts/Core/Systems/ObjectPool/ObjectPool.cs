@@ -4,10 +4,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 [System.Serializable]
 public class ObjectPool : IObjectPool
 {
+    [Inject]
+    private DiContainer _container;
+
     private Dictionary<string, Queue<GameObject>> _pool { get; set; } = new();
     private Dictionary<GameObject, string> _activePool { get; set; } = new();
     private Transform _root;
@@ -26,6 +30,7 @@ public class ObjectPool : IObjectPool
             {
                 var result = await Addressables.InstantiateAsync(item.Prefab, parent: _root.transform).Task;
 
+                _container.InjectGameObject(result);
                 result.SetActive(false);
                 _pool[item.Prefab.AssetGUID].Enqueue(result);
             }
@@ -44,12 +49,15 @@ public class ObjectPool : IObjectPool
             result.SetActive(false);
 
             _pool[key.AssetGUID].Enqueue(result);
+            _container.InjectGameObject(result);
 
             Debug.LogWarning("Added an addressable to the pool at runtime!");
         }
 
         var target = _pool[key.AssetGUID].Dequeue();
+        target.SetActive(true);
         target.transform.SetParent(null);
+        _activePool.Add(target, key.AssetGUID);
 
         return target;
     }
@@ -58,6 +66,9 @@ public class ObjectPool : IObjectPool
     {
         if (_activePool.TryGetValue(target, out var guid))
         {
+            target.SetActive(false);
+            target.transform.SetParent(_root);
+
             _activePool.Remove(target);
             _pool[guid].Enqueue(target);
         }

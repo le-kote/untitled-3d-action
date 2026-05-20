@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(GenericMovement))]
 [RequireComponent(typeof(AudioSource))]
-public class WeaponsHolder : MonoBehaviour
+public class WeaponsHolder : FancyBehaviour
 {
     [SerializeField]
     private BaseWeapon? _weapon1;
@@ -180,14 +180,12 @@ public class WeaponsHolder : MonoBehaviour
             }
 
             // Instantiate and move projectile to scene
-            var instance = Instantiate(weapon.Projectile);
-            SceneManager.MoveGameObjectToScene(instance, SceneManager.GetActiveScene());
+            var instance = PoolShow(weapon.Projectile);
             instance.transform.position = resultPos + camTransform.forward * 0.75f - Vector3.up * 0.12f;
 
             // Launch projectile
             var proj = instance.GetOrAddComponent<Projectile>();
-            proj.Launch(gameObject, resuldDir.normalized * weapon.ProjectileSpeed);
-            Destroy(instance, weapon.ProjectileLifetime);
+            proj.Launch(gameObject, resuldDir.normalized * weapon.ProjectileSpeed, weapon.ProjectileLifetime);
         }
 
         if (weapon.PhysicalRecoil > 0f)

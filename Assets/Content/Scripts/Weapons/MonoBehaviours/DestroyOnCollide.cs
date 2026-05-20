@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class DestroyOnCollide : MonoBehaviour
+public class DestroyOnCollide : FancyBehaviour
 {
     void OnCollisionEnter(Collision collision)
     {
         if (gameObject.TryGetComponent<Projectile>(out var proj) && collision.gameObject == proj.Player)
             return;
 
-        Destroy(gameObject);
+        PoolHide(gameObject);
     }
 
     void OnTriggerEnter(Collider other)
@@ -15,6 +15,6 @@ public class DestroyOnCollide : MonoBehaviour
         if (gameObject.TryGetComponent<Projectile>(out var proj) && other.gameObject == proj.Player)
             return;
 
-        Destroy(gameObject);
+        PoolHide(gameObject);
     }
 }

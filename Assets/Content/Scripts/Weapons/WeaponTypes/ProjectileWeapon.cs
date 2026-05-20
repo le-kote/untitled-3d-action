@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 [CreateAssetMenu(fileName = "Projectile Weapon", menuName = "Scriptable Objects/Weapons/Projectile Weapon")]
 public sealed class ProjectileWeapon : BaseWeapon
@@ -6,7 +7,7 @@ public sealed class ProjectileWeapon : BaseWeapon
     /// <summary>
     /// Used projectile prefab
     /// </summary>
-    public GameObject Projectile;
+    public AssetReference Projectile;
 
     /// <summary>
     /// Projectile launch speed
