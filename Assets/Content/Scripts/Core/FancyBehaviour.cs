@@ -1,11 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using Zenject;
 
 public abstract class FancyBehaviour : MonoBehaviour
 {
     [Inject]
     private IEventSystem _eventSys;
+
+    [Inject]
+    private IObjectPool _pool;
 
     private struct SubscribedEvent
     {
@@ -42,6 +46,7 @@ public abstract class FancyBehaviour : MonoBehaviour
     {
     }
 
+    #region Events
     protected virtual void InitializeEvents()
     {
     }
@@ -106,4 +111,17 @@ public abstract class FancyBehaviour : MonoBehaviour
         var generic = unsubscribeMethod.MakeGenericMethod(eventType);
         generic.Invoke(_eventSys, new object[] { gameObject, del });
     }
+    #endregion
+
+    #region Spawn/Delete
+    protected GameObject PoolShow(AssetReference key)
+    {
+        return _pool.GetInstance(key);
+    }
+
+    public void PoolHide(GameObject target)
+    {
+        _pool.HideObject(target);
+    }
+    #endregion
 }
