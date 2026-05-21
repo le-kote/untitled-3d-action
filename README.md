@@ -1,3 +1,2 @@
 # untitled-3d-action
-My first WIP project, movement based shooter.
-Thats alllllll
+My Unity learning playground. A perfect place to learn about new packages and code principes.
