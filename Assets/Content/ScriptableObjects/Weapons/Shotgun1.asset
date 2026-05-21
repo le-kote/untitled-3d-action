@@ -16,7 +16,12 @@ MonoBehaviour:
   AttackRate: 0.2
   Automatic: 0
   StopAttacksOnButtonUp: 0
-  Projectile: {fileID: 6521787214382137834, guid: e0f39e1edb4d5f54fa23fcb4ece18761, type: 3}
+  Projectile:
+    m_AssetGUID: e0f39e1edb4d5f54fa23fcb4ece18761
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 1
   ProjectileSpeed: 40
   FiredProjectiles: 8
   ProjectileLifetime: 0.6
