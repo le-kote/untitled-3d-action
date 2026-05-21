@@ -2458,6 +2458,19 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_EditorAssetChanged: 1
     InitialPoolSize: 20
+  - Prefab:
+      m_AssetGUID: 1b4fb79c1990ecd459b9347344d5b1ce
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    InitialPoolSize: 40
+  _audioObject:
+    m_AssetGUID: 1b4fb79c1990ecd459b9347344d5b1ce
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 1
 --- !u!4 &1021261779
 Transform:
   m_ObjectHideFlags: 0

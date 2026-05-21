@@ -54,7 +54,15 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   MaxDamageRange: 100
-  FireSound: {fileID: 8300000, guid: 9ca82c48e4eb6e242814bf9a20a5ed9d, type: 3}
-  FireSoundVolume: 1
-  IsFireSound3D: 1
-  AudioMixerGroup: {fileID: 0}
+  FireSound:
+    _generator:
+      Reference: {fileID: 8300000, guid: 9ca82c48e4eb6e242814bf9a20a5ed9d, type: 3}
+    Params:
+      Output: {fileID: 0}
+      BypassEffects: 0
+      BypassListenerEffects: 0
+      Priority: 128
+      Volume: 0.5
+      Pitch: 1
+      SpatialBlend: 1
+      ReverbZoneMix: 1
