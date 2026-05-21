@@ -123,5 +123,10 @@ public abstract class FancyBehaviour : MonoBehaviour
     {
         _pool.HideObject(target);
     }
+
+    public void PoolHide()
+    {
+        _pool.HideObject(gameObject);
+    }
     #endregion
 }
