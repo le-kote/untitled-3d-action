@@ -219,7 +219,6 @@ Position: $BWB2zzndV2B4gaSppBVEbD:0
 
 # _jumpSound
 Position: $BWB2zzndV2B4gaSppBVEbD:1
-+ [UnityEngine.SpaceAttribute]
 
 # _landSound
 Position: $BWB2zzndV2B4gaSppBVEbD:2

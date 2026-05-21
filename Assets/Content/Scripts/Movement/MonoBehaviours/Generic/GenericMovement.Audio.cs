@@ -1,25 +1,27 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using Zenject;
 
 public partial class GenericMovement
 {
     [Header("Audio Settings", order = 2)]
 
     [SerializeField]
-    private AudioClip[] _footstepSounds;
+    private AudioCompound _footstepSounds;
 
     [SerializeField]
-    private AudioClip _jumpSound;
+    private AudioCompound _jumpSound;
 
     [SerializeField]
-    private AudioClip _landSound;
+    private AudioCompound _landSound;
 
     [SerializeField]
-    private AudioClip _bigJumpSelectedSound;
+    private AudioCompound _bigJumpSelectedSound;
 
     [SerializeField]
-    private AudioClip _smallJumpSelectedSound;
+    private AudioCompound _smallJumpSelectedSound;
 
     [SerializeField]
     [Range(0.1f, 1f)]
@@ -45,38 +47,25 @@ public partial class GenericMovement
     [Tooltip("Time interval between footsteps in seconds when crouching")]
     private float _crouchStepInterval = 0.8f;
 
-    private AudioSource _audioSource;
+    [Inject]
+    private IAudioSystem _audio;
 
     private float _stepTimer = 0f;
 
-    private void InitializeAudio()
-    {
-        _audioSource = gameObject.AddComponent<AudioSource>();
-
-        _audioSource.spatialBlend = 1f;
-    }
-
     private void UpdateFootsteps()
     {
-        if (!IsGrounded || Input.magnitude < 0.1f)
-        {
-            _stepTimer = 0f;
-            return;
-        }
-
-        float currentSpeed = Velocity.Horizontal().magnitude;
-        if (currentSpeed < 0.5f)
-        {
-            _stepTimer = 0f;
-            return;
-        }
-
         float interval = CurrentMoveState switch
         {
             MoveState.Running => _sprintStepInterval,
             MoveState.Crouching => _crouchStepInterval,
             _ => _walkStepInterval
         };
+
+        if (!IsGrounded || Input.magnitude < 0.1f || Velocity.Horizontal().magnitude < 0.5f)
+        {
+            _stepTimer = interval * .7f;
+            return;
+        }
 
         _stepTimer += Time.deltaTime;
 
@@ -89,29 +78,25 @@ public partial class GenericMovement
 
     private void PlayFootstepSound()
     {
-        if (_footstepSounds == null || _footstepSounds.Length == 0)
+        if (_footstepSounds.Generator == null)
             return;
 
-        AudioClip clip = _footstepSounds[Random.Range(0, _footstepSounds.Length)];
-        _audioSource.pitch = Random.Range(0.9f, 1.1f);
-        _audioSource.PlayOneShot(clip, _footstepVolume);
+        _audio.PlayFollowed(_footstepSounds.Generator, transform, _footstepSounds.Params);
     }
 
     private void PlayJumpSound()
     {
-        if (_jumpSound == null || _audioSource == null)
+        if (_jumpSound.Generator == null)
             return;
 
-        _audioSource.pitch = Random.Range(0.9f, 1.1f);
-        _audioSource.PlayOneShot(_jumpSound, _jumpVolume);
+        _audio.PlayFollowed(_jumpSound.Generator, transform, _jumpSound.Params);
     }
 
     private void PlayLandSound()
     {
-        if (_landSound == null || _audioSource == null)
+        if (_landSound.Generator == null)
             return;
 
-        _audioSource.pitch = Random.Range(0.8f, 1.2f);
-        _audioSource.PlayOneShot(_landSound, _landVolume);
+        _audio.PlayFollowed(_landSound.Generator, transform, _landSound.Params);
     }
 }

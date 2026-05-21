@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// This component handles the most common movement, such as walking, running, crouching and jumping
 /// </summary>
-[RequireComponent(typeof(CharacterController), typeof(AudioSource))]
+[RequireComponent(typeof(CharacterController))]
 public partial class GenericMovement : FancyBehaviour
 {
     private CharacterController _cc;
@@ -36,8 +36,6 @@ public partial class GenericMovement : FancyBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        InitializeAudio();
     }
 
     // Update is called once per frame
@@ -162,13 +160,13 @@ public partial class GenericMovement : FancyBehaviour
 
         _bigJumpSelected = !_bigJumpSelected;
 
-        if (_audioSource == null || _bigJumpSelectedSound == null || _smallJumpSelectedSound == null)
+        if (_bigJumpSelectedSound.Generator == null || _smallJumpSelectedSound.Generator == null)
             return;
 
         if (_bigJumpSelected)
-            _audioSource.PlayOneShot(_bigJumpSelectedSound, _jumpVolume);
+            _audio.PlayFollowed(_bigJumpSelectedSound.Generator, transform, _bigJumpSelectedSound.Params);
         else
-            _audioSource.PlayOneShot(_smallJumpSelectedSound, _jumpVolume);
+            _audio.PlayFollowed(_smallJumpSelectedSound.Generator, transform, _smallJumpSelectedSound.Params);
     }
 
     public void ReleaseCursor(InputAction.CallbackContext context)

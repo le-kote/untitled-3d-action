@@ -1,11 +1,8 @@
-using System.Linq;
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
+using Zenject;
 
 [RequireComponent(typeof(GenericMovement), typeof(CharacterController))]
-[RequireComponent(typeof(AudioSource))]
 public class TeleportAbility : MonoBehaviour
 {
     [SerializeField]
@@ -17,39 +14,18 @@ public class TeleportAbility : MonoBehaviour
     [SerializeField]
     private LayerMask _obstacleMask;
 
-    [Header("Audio Settings")]
     [SerializeField]
-    private AudioSource _audioSource;
-    
-    [SerializeField]
-    private AudioClip[] _teleportSounds;
-    
-    [SerializeField]
-    [Range(0f, 1f)]
-    private float _teleportVolume = 0.8f;
-    
-    [SerializeField]
-    private bool _randomizePitch = true;
-    
-    [SerializeField]
-    [Range(0.5f, 2f)]
-    private float _minPitch = 0.8f;
-    
-    [SerializeField]
-    [Range(0.5f, 2f)]
-    private float _maxPitch = 1.2f;
+    private AudioCompound _teleportSounds = new();
+
+    [Inject]
+    private IAudioSystem _audio = default!;
 
     private GenericMovement _movement;
 
     void Start()
     {
         _movement = GetComponent<GenericMovement>();
-        
-        if (_audioSource == null)
-            _audioSource = GetComponent<AudioSource>();
-            
-        if (_audioSource == null)
-            _audioSource = gameObject.AddComponent<AudioSource>();
+
     }
 
     public void TryTeleport(InputAction.CallbackContext context)
@@ -77,24 +53,6 @@ public class TeleportAbility : MonoBehaviour
 
     private void PlayTeleportSound()
     {
-        if (_audioSource == null || _teleportSounds == null || _teleportSounds.Length == 0)
-            return;
-        
-        // Выбираем случайный звук из массива
-        int randomIndex = Random.Range(0, _teleportSounds.Length);
-        AudioClip clipToPlay = _teleportSounds[randomIndex];
-        
-        // Рандомизируем высоту тона (pitch) если включено
-        if (_randomizePitch)
-        {
-            _audioSource.pitch = Random.Range(_minPitch, _maxPitch);
-        }
-        else
-        {
-            _audioSource.pitch = 1f;
-        }
-        
-        // Воспроизводим звук
-        _audioSource.PlayOneShot(clipToPlay, _teleportVolume);
+        _audio.PlayFollowed(_teleportSounds.Generator, transform, _teleportSounds.Params);
     }
 }

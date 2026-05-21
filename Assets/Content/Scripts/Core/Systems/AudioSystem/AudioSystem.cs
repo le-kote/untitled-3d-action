@@ -25,6 +25,9 @@ public class AudioSystem : IAudioSystem
             return;
         }
 
+        if (clip == null)
+            return;
+
         var sourceObject = _pool.GetInstance(_audioObject);
 
         if (!sourceObject.TryGetComponent<AudioSource>(out var source))
@@ -47,6 +50,9 @@ public class AudioSystem : IAudioSystem
             Debug.LogError("AudioSystem: audio object reference not set. Ensure GameStarter calls Startup in Awake.");
             return;
         }
+
+        if (clip == null)
+            return;
 
         var sourceObject = _pool.GetInstance(_audioObject);
 

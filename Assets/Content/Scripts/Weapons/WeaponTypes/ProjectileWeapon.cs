@@ -57,21 +57,5 @@ public sealed class ProjectileWeapon : BaseWeapon
     /// <summary>
     /// Sound played when weapon fires
     /// </summary>
-    public AudioClip FireSound;
-
-    /// <summary>
-    /// Volume of the fire sound (0-1)
-    /// </summary>
-    [Range(0f, 1f)]
-    public float FireSoundVolume = 0.5f;
-
-    /// <summary>
-    /// Should the fire sound be played at the weapon position (3D) or globally (2D)
-    /// </summary>
-    public bool IsFireSound3D = true;
-
-    /// <summary>
-    /// Audio mixer group for weapon sounds (optional)
-    /// </summary>
-    public UnityEngine.Audio.AudioMixerGroup AudioMixerGroup;
+    public AudioCompound FireSound = new();
 }

@@ -5,11 +5,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 #nullable enable
 
 [RequireComponent(typeof(GenericMovement))]
-[RequireComponent(typeof(AudioSource))]
 public class WeaponsHolder : FancyBehaviour
 {
     [SerializeField]
@@ -26,14 +26,7 @@ public class WeaponsHolder : FancyBehaviour
 
     [Header("Audio Settings")]
     [SerializeField]
-    private AudioSource _audioSource;
-
-    [SerializeField]
-    private AudioClip _switchWeaponSound;
-
-    [SerializeField]
-    [Range(0f, 1f)]
-    private float _switchWeaponVolume = 0.5f;
+    private AudioCompound _switchWeaponSound;
 
     private GenericMovement _movement;
 
@@ -41,18 +34,15 @@ public class WeaponsHolder : FancyBehaviour
     private bool _isAttacking = false;
     private List<float> _queuedAttacks = new();
 
+    [Inject]
+    private IAudioSystem _audio = default!;
+
     private BaseWeapon? _currentWeapon;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _movement = GetComponent<GenericMovement>();
-
-        if (_audioSource == null)
-            _audioSource = GetComponent<AudioSource>();
-
-        if (_audioSource == null)
-            _audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -104,32 +94,19 @@ public class WeaponsHolder : FancyBehaviour
 
     private void PlayWeaponSound(BaseWeapon weapon)
     {
-        if (_audioSource == null) return;
-
-        AudioClip? soundToPlay = null;
-        float volume = 1f;
-        bool is3D = true;
-        UnityEngine.Audio.AudioMixerGroup? mixerGroup = null;
+        AudioCompound? soundToPlay = null;
 
         switch (weapon)
         {
             case ProjectileWeapon projectile:
                 soundToPlay = projectile.FireSound;
-                volume = projectile.FireSoundVolume;
-                is3D = projectile.IsFireSound3D;
-                mixerGroup = projectile.AudioMixerGroup;
                 break;
         }
 
-        if (soundToPlay == null) return;
+        if (soundToPlay == null || soundToPlay.Generator == null)
+            return;
 
-        _audioSource.spatialBlend = is3D ? 1f : 0f;
-        _audioSource.volume = volume;
-
-        if (mixerGroup != null)
-            _audioSource.outputAudioMixerGroup = mixerGroup;
-
-        _audioSource.PlayOneShot(soundToPlay);
+        _audio.PlayFollowed(soundToPlay.Generator, transform, soundToPlay.Params);
     }
 
     private void AttackMelee(MeleeWeapon weapon)
@@ -215,10 +192,10 @@ public class WeaponsHolder : FancyBehaviour
 
     private void PlaySwitchWeaponSound()
     {
-        if (_audioSource != null && _switchWeaponSound != null)
-        {
-            _audioSource.PlayOneShot(_switchWeaponSound, _switchWeaponVolume);
-        }
+        if (_switchWeaponSound.Generator == null)
+            return;
+
+        _audio.PlayFollowed(_switchWeaponSound.Generator, transform, _switchWeaponSound.Params);
     }
     #endregion
 
