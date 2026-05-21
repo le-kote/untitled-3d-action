@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: ad118a06619acb04381fcc14f8bb2e2b
   m_SerializeEntries:
+  - m_GUID: 1b4fb79c1990ecd459b9347344d5b1ce
+    m_Address: Core/AudioPseusoObject
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 80de0d75202d0534198284e0534d5b6f
     m_Address: Prefabs/DebugDamageable
     m_ReadOnly: 0
