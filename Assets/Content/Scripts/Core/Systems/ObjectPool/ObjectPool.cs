@@ -16,6 +16,17 @@ public class ObjectPool : IObjectPool
     private Dictionary<GameObject, string> _activePool { get; set; } = new();
     private Transform _root;
 
+    private static string GetKey(AssetReference reference)
+    {
+        if (reference == null)
+            return string.Empty;
+
+        if (!string.IsNullOrEmpty(reference.AssetGUID))
+            return reference.AssetGUID;
+
+        return reference.RuntimeKey?.ToString() ?? string.Empty;
+    }
+
     public async UniTask Startup(PreloadedPrefab[] prefabs)
     {
         _root = new GameObject("Pool").transform;
@@ -24,7 +35,8 @@ public class ObjectPool : IObjectPool
 
         foreach (var item in prefabs)
         {
-            _pool.TryAdd(item.Prefab.AssetGUID, new());
+            var key = GetKey(item.Prefab);
+            _pool.TryAdd(key, new());
 
             for (var i = 0; i < item.InitialPoolSize; i++)
             {
@@ -32,14 +44,16 @@ public class ObjectPool : IObjectPool
 
                 _container.InjectGameObject(result);
                 result.SetActive(false);
-                _pool[item.Prefab.AssetGUID].Enqueue(result);
+                _pool[key].Enqueue(result);
             }
         }
     }
 
     public GameObject GetInstance(AssetReference key)
     {
-        if (!_pool.TryGetValue(key.AssetGUID, out var queue))
+        var guid = GetKey(key);
+
+        if (!_pool.TryGetValue(guid, out var queue))
         {
             return Addressables.InstantiateAsync(key, instantiateInWorldSpace: true).WaitForCompletion();
         }
@@ -48,16 +62,16 @@ public class ObjectPool : IObjectPool
             var result = Addressables.InstantiateAsync(key, parent: _root.transform).WaitForCompletion();
             result.SetActive(false);
 
-            _pool[key.AssetGUID].Enqueue(result);
+            _pool[guid].Enqueue(result);
             _container.InjectGameObject(result);
 
             Debug.LogWarning("Added an addressable to the pool at runtime!");
         }
 
-        var target = _pool[key.AssetGUID].Dequeue();
+        var target = _pool[guid].Dequeue();
         target.SetActive(true);
         target.transform.SetParent(null);
-        _activePool.Add(target, key.AssetGUID);
+        _activePool.Add(target, guid);
 
         return target;
     }
